@@ -22,5 +22,10 @@ public class GrowingKey : Key, IAttackable
         if (growthMultiplier <= 0f) return;
 
         transform.localScale = transform.localScale * growthMultiplier;
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.Play3DSFX("KeyGrow", transform.position);
+        }
     }
 }

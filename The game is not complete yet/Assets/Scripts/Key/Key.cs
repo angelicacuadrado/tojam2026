@@ -45,6 +45,10 @@ public class Key : MonoBehaviour, IPoolable
     {
         if (other.CompareTag(tagToCheck))
         {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.Play3DSFX("KeyPickup", transform.position);
+            }
             GameManager.Instance.AddKey();
             poolOwner.ReturnToPool(gameObject, poolKey);
         }
