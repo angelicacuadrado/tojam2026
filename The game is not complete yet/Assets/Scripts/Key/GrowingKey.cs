@@ -1,16 +1,26 @@
 using UnityEngine;
 
-public class GrowingKey : MonoBehaviour
+public class GrowingKey : Key, IAttackable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private int maxScaleTimes = 10;
+    [SerializeField] private int currentScaleTimes = 0;
+    [SerializeField] private float growthMultiplier = 1.2f;
+
+    public void TakeDamage(int damage)
     {
-        
+        if (damage > 0)
+        {
+            Grow();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Grow()
     {
-        
+        if (currentScaleTimes >= maxScaleTimes) return;
+        currentScaleTimes++;
+
+        if (growthMultiplier <= 0f) return;
+
+        transform.localScale = transform.localScale * growthMultiplier;
     }
 }

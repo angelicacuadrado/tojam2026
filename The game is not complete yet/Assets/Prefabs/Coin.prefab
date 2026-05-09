@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8208843441803186583}
   - component: {fileID: 2333100850451188121}
+  - component: {fileID: 8607816865164293524}
+  - component: {fileID: 1350405150089022881}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -48,9 +50,52 @@ MonoBehaviour:
   tagToCheck: Player
   poolKey: Coin
   poolOwner: {fileID: 0}
+  visual: {fileID: 5561682896208911325}
   rotationSpeed: 50
   bobbingAmplitude: 0.25
   bobbingFrequency: 1
+--- !u!114 &8607816865164293524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126821202071608756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b637fbe39ec71db4ba4048ba7993024c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KeyMovement
+  moveSpeed: 5
+  jumpForce: 5
+  groundCheckDistance: 0.1
+--- !u!54 &1350405150089022881
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126821202071608756}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1465343704614038689
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +107,8 @@ GameObject:
   - component: {fileID: 5561682896208911325}
   - component: {fileID: 4510731532951326712}
   - component: {fileID: 2243986270478153365}
-  - component: {fileID: 4641571070186660849}
+  - component: {fileID: 1593743182011391224}
+  - component: {fileID: 2084064682837181680}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -142,8 +188,29 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4641571070186660849
-CapsuleCollider:
+--- !u!135 &1593743182011391224
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465343704614038689}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.0000002
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940699}
+--- !u!135 &2084064682837181680
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -160,8 +227,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  serializedVersion: 3
+  m_Radius: 1.0000002
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940699}

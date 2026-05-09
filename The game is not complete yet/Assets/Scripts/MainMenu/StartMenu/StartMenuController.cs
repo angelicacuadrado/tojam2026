@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,6 +48,23 @@ public class StartMenuController : MonoBehaviour
 
     public void Shutdown()
     {
+        StartCoroutine(ShutdownRoutine());
+    }
+
+    private IEnumerator ShutdownRoutine()
+    {
+        SetMenuVisible(false);
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX("Shutdown");
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager not found!");
+        }
+        yield return new WaitForSeconds(2.0f);
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
