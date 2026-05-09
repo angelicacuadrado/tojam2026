@@ -917,7 +917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   spawnPoint: {fileID: 1232475304}
-  player: {fileID: 0}
+  player: {fileID: 1480641560}
   pos1: {fileID: 321764459}
   pos2: {fileID: 883623779}
   spawnOnStart: 1
