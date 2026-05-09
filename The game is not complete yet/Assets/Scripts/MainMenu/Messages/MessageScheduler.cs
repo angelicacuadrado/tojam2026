@@ -12,6 +12,15 @@ public class MessageScheduler : MonoBehaviour
     [SerializeField] private float startupDelay = 2f;
     [SerializeField] private bool autoStart = true;
 
+    [Tooltip("Sound name in AudioManager's database to play when a new message arrives.")]
+    [SerializeField] private string notificationSfxName = "newmessage";
+
+    /// <summary>
+    /// Set true while the user is actively reading Dev's chat — the scheduler then
+    /// skips the notification SFX (notifications are meant for unattended messages).
+    /// </summary>
+    public bool SuppressNotificationSound { get; set; }
+
     public event Action<MessageEntry> MessageDelivered;
     public event Action<int> ChapterStarted;
     public event Action<int> ChapterCompleted;
@@ -90,6 +99,10 @@ public class MessageScheduler : MonoBehaviour
                 if (entry.delayAfterPrevious > 0f) yield return new WaitForSeconds(entry.delayAfterPrevious);
                 delivered.Add(entry);
                 MessageDelivered?.Invoke(entry);
+                if (!SuppressNotificationSound && AudioManager.Instance != null && !string.IsNullOrEmpty(notificationSfxName))
+                {
+                    AudioManager.Instance.PlaySFX(notificationSfxName);
+                }
             }
         }
 
