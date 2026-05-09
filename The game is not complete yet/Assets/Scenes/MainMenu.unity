@@ -559,17 +559,17 @@ MonoBehaviour:
   - name: NewMessage
     clip: {fileID: 0}
   - name: PlayerJump
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0ee9e1371bf3c2143aba2b4c530ba881, type: 3}
   - name: PlayerDamage
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 68164824299a4bb49bf9a59783dddff1, type: 3}
   - name: PlayerShoot
     clip: {fileID: 0}
   - name: PlayerDie
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fc76491f9be10954180e38022a8577ce, type: 3}
   - name: PlayerWalk
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8eac98350de23574d8dfb81675f9860c, type: 3}
   - name: PlayerRespawn
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f210beab914bcdb4fbf7305b655b2eec, type: 3}
   - name: EnemyLaugh
     clip: {fileID: 0}
   - name: EnemyGrow
@@ -586,6 +586,8 @@ MonoBehaviour:
     clip: {fileID: 0}
   - name: FailLevel
     clip: {fileID: 0}
+  - name: Level1
+    clip: {fileID: 8300000, guid: 5e2e8a7582bcefe44b75b17eb7a90887, type: 3}
   randomClickSounds:
   - {fileID: 8300000, guid: 1ddba0fdaf894624db1ced30d58e1ad0, type: 3}
   - {fileID: 8300000, guid: 17034017776c47f45a20f420cc95297d, type: 3}
@@ -1631,6 +1633,7 @@ MonoBehaviour:
   story: {fileID: 11400000, guid: cc81962a38d342948beedbec4cfb33db, type: 2}
   startupDelay: 2
   autoStart: 1
+  notificationSfxName: newmessage
 --- !u!4 &600513072
 Transform:
   m_ObjectHideFlags: 0

@@ -66,6 +66,17 @@ public class AudioManager : MonoBehaviour
             sfxSource.PlayOneShot(clip);
     }
 
+    public void PlayBGM(string soundName, bool loop = true)
+    {
+        if (soundDictionary.TryGetValue(soundName, out AudioClip clip))
+        {
+            bgmSource.Stop();
+            bgmSource.clip = clip;
+            bgmSource.loop = loop;
+            bgmSource.Play();
+        }
+    }
+
     public void PlayVoice(string soundName)
     {
         if (soundDictionary.TryGetValue(soundName, out AudioClip clip))
@@ -85,5 +96,15 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogWarning($"AudioManager: Sound '{soundName}' not found!");
         }
+    }
+
+    public void PauseBGM()
+    {
+         bgmSource.Pause();
+    }
+
+    public void UnPauseBGM()
+    {
+        bgmSource.UnPause();
     }
 }
