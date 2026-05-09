@@ -29,7 +29,10 @@ public class Bullet : MonoBehaviour, IPoolable
     {
         // Check if the collider has an IAttackable component and apply damage
         IAttackable attackable = other.GetComponent<IAttackable>();
-        attackable?.TakeDamage(damage); // Apply damage 
+        // Check parent if not found on the object itself
+        attackable ??= other.GetComponentInParent<IAttackable>();
+        // Apply damage 
+        attackable?.TakeDamage(damage);
 
         // Return the bullet to the pool
         ReturnToPool();

@@ -12,11 +12,10 @@ GameObject:
   - component: {fileID: 4366094182622150832}
   - component: {fileID: 3153551322249069505}
   - component: {fileID: 2365102285047320853}
-  - component: {fileID: 7138526405310162137}
   - component: {fileID: 296006474568426686}
   m_Layer: 0
   m_Name: RespawnEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,30 +93,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4808522ffe1dce348b7a31f9c4e48d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttacker
-  pos1: {fileID: 0}
-  pos2: {fileID: 0}
   player: {fileID: 0}
-  canChasePlayer: 0
-  detectionRange: 3
   attackRange: 1.5
   damagePerAttack: 1
   attackCooldown: 1
   knockbackForce: 6
   knockbackUpwardForce: 0
-  patrolPointReachDistance: 0.3
---- !u!114 &7138526405310162137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8641234101394594668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e70f68dd145b9c94e8b40974baaaccdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyGrower
-  maxScaleMultiplier: 3
 --- !u!114 &296006474568426686
 MonoBehaviour:
   m_ObjectHideFlags: 0
