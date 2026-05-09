@@ -1,0 +1,32 @@
+Game Title: The Game Is Not Completed
+Created for TOJam 2026
+
+Developed by Something Studio
+
+Team Members
+Ido Isaac – Programmer / Game Design
+Zibing Xin – Programmer / Game Design / UI
+Xiaoyu Shi – Programmer / Level Design
+Angelica C. Rodriguez – Programmer / Audio
+Shane Duffney – Level Design
+
+Special Thanks
+TOJam organizers and volunteers
+Our floaters:
+Omar M. N. – 3D Graphics Support
+James Ronald – Audio Support
+
+Tools Used
+Unity
+Blender / Photoshop 
+Visual Studio / Rider
+GitHub
+
+Assets and Audio
+[Asset name] by [Creator] – [License / Source]
+[Music or SFX name] by [Creator] – [License / Source]
+Comic Sans Font by Microsoft – Copyright (c) 1995 Microsoft Corporation. All rights reserved.
+
+No bugs were harmed during development.
+Actually, many bugs were found.
+Thank you for testing.
