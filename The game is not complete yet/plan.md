@@ -515,3 +515,255 @@ dotnet build "The game is not complete yet.sln" --no-restore
 ```
 
 - 最新结果：构建成功，`0 Warning(s), 0 Error(s)`。
+
+## 2026-05-09 今日进度记录
+
+### Mixamo / Zombie Cartoon 动画接入
+
+- 排查 `Zombie Cartoon_01.prefab` 的绑定警告来源：
+  - 模型本体 `Zombie Cartoon.fbx` 是 Humanoid。
+  - Mixamo 导出的几个动画 FBX 一开始是 Generic，和模型 Avatar 不一致，容易产生绑定/Avatar 警告。
+  - 旧的 `Main Camera.controller` 原本是商店资源自带的相机/演示 controller，不适合作为最终敌人动画控制器长期使用。
+- 新增 Editor 菜单脚本：
+  - `Assets/Editor/ZombieCartoonMixamoSetup.cs`
+  - 菜单路径：`Tools/Zombie Cartoon/Setup Mixamo Animations`
+  - 功能：
+    - 将 `Zombie Cartoon.fbx` 设置为 Humanoid，并从本模型创建 Avatar。
+    - 将 `Zombie Cartoon@Zombie Idle.fbx`、`Zombie Cartoon@Walking.fbx`、`Zombie Cartoon@Zombie Punching.fbx`、`Zombie Cartoon@Zombie Reaction Hit.fbx`、`Zombie Cartoon@Dying.fbx` 设置为 Humanoid，并 Copy From `Zombie Cartoon.fbx` 的 Avatar。
+    - 创建/更新 `Zombie Cartoon.controller`。
+    - 生成 `Idle`、`Walking`、`Punching`、`Reaction Hit`、`Dying` 状态。
+    - 将新 controller 挂到 `Zombie Cartoon_01.prefab` 的 Animator 上。
+- 动画循环设置约定：
+  - `Idle` 和 `Walking` 需要 Loop。
+  - `Punching`、`Reaction Hit`、`Dying` 不需要 Loop。
+
+### Root Motion 约定
+
+- 明确敌人移动和动画位移的职责：
+  - 追踪、巡逻、普通走路由 `NavMeshAgent` / 敌人移动逻辑控制位置。
+  - `Walking` 不使用 Root Motion，避免动画和 NavMeshAgent 抢 Transform。
+  - `Dying` 可以使用 Root Motion，让死亡倒地动画控制最后的位移。
+- `EnemyHealth.Die()` 已改为在触发死亡动画前打开 Root Motion：
+
+```csharp
+private void Die()
+{
+    if (animator == null)
+        return;
+
+    animator.applyRootMotion = true;
+    animator.SetTrigger("die");
+}
+```
+
+### 动画测试脚本
+
+- 扩展 `EnemyDamageTester.cs`，用于 Play Mode 中快速测试敌人动画。
+- 当前测试按键：
+  - `T`：调用 `EnemyHealth.TakeDamage(1)`。
+  - `I`：播放 `Idle`。
+  - `W`：播放 `Walking`，并关闭 Root Motion。
+  - `P`：播放 `Punching`。
+  - `H`：播放 `Reaction Hit`。
+  - `D`：播放 `Dying`，并打开 Root Motion。
+- `EnemyDamageTester` 会自动查找子物体上的 `Animator`。
+- 新增 `Control Root Motion For Testing` 开关，便于测试时决定是否由脚本自动切换 Root Motion。
+
+### Skeleton 动画控制器理解和接入
+
+- 排查 `Assets/Art/SazenGames/Skeleton/Art/Demo Animator Controllers`：
+  - `idle.controller` 是基础 Animator Controller。
+  - 其他 `.overrideController` 是 Animator Override Controller，用来复用基础 controller 的状态机，只替换动画 clip。
+- Skeleton 的基础 controller 参数包括：
+  - `attack1`
+  - `attack2`
+  - `hit`
+  - `die`
+  - `rebrith`
+- Zombie controller 参数包括：
+  - `attack`
+  - `hit`
+  - `die`
+- 当前攻击触发约定：
+  - Zombie 使用 `attack`。
+  - Skeleton 随机使用 `attack1` 或 `attack2`。
+- 注意：不建议长期用 `animator.name` 判断敌人类型，因为子物体改名后 trigger 会失效。后续建议改成 Inspector 配置攻击 trigger，或新增敌人动画配置 enum。
+
+### Animation Event 死亡收尾
+
+- 目标：死亡动画播放完以后再 Destroy 或 SetActive(false)。
+- 已在 `EnemyHealth.cs` 中新增：
+
+```csharp
+public void OnDeathAnimationComplete()
+{
+    if (useDestroyOnDie)
+        Destroy(gameObject);
+
+    gameObject.SetActive(false);
+}
+```
+
+- 已确认 FBX 只读动画仍然可以在 Unity Import Settings 的 `Animation > Events` 中添加事件，事件会写入 `.fbx.meta`，不是修改 FBX 本体。
+- Skeleton 死亡动画：
+  - `Skeleton_death.fbx` 已有 `OnDeathAnimationComplete` event。
+  - event 时间为 `1`，表示 clip 末尾，设置方向正确。
+- Zombie 死亡动画：
+  - `Zombie Cartoon@Dying.fbx` 当前存在一个多余的 `NewEvent`，需要删除。
+  - `OnDeathAnimationComplete` 需要放在时间 `1`，不能放在 `0`。
+- 重要注意：
+  - Animation Event 默认调用 Animator 所在 GameObject 上的方法。
+  - 当前 `EnemyHealth` 在敌人根物体，Animator 在 `Zombie Cartoon_01` / `Skeleton_110` 子物体。
+  - 后续应在模型子物体上挂一个 relay 脚本，将 `OnDeathAnimationComplete` 转发给父物体的 `EnemyHealth`。
+
+建议 relay 脚本：
+
+```csharp
+using UnityEngine;
+
+public class EnemyAnimationEventRelay : MonoBehaviour
+{
+    public void OnDeathAnimationComplete()
+    {
+        GetComponentInParent<EnemyHealth>()?.OnDeathAnimationComplete();
+    }
+}
+```
+
+### 当前遗留问题 / 下一步
+
+- `EnemyAttacker.cs` 中 Skeleton 随机攻击建议改为 `UnityEngine.Random.value < 0.5f`，避免使用 `switch case float n when` 带来的 C# 版本兼容风险。
+- `EnemyHealth.OnDeathAnimationComplete()` 建议改成 `if/else`，避免 `Destroy(gameObject)` 后又继续执行 `gameObject.SetActive(false)`。
+- 需要补 `EnemyAnimationEventRelay`，并挂到 Animator 所在子物体上。
+- Zombie 的 `Dying` Animation Event 需要手动清理：
+  - 删除 `NewEvent`。
+  - 把 `OnDeathAnimationComplete` 放到时间 `1`。
+  - 点 `Apply`。
+
+## 后续功能计划：压感按钮系统
+
+### 目标
+
+实现两种可复用的压感按钮 prefab / 脚本：
+
+- 一次性按钮：
+  - 被按下后保持按下状态。
+  - 不会回弹。
+  - 只触发一次按下事件。
+- 重物压感按钮：
+  - 需要有重物停留在按钮上才保持按下状态。
+  - 重物离开后按钮回弹。
+  - 按下时事件有效，回弹后事件失效。
+
+两种按钮都需要支持在 Inspector 中拖拽配置事件，避免在按钮脚本里写死具体机关逻辑。
+
+### 通用行为
+
+- 按钮需要有清晰的状态：
+  - `Released`
+  - `Pressed`
+- 从 `Released` 进入 `Pressed` 时触发 `OnPressed`。
+- 从 `Pressed` 回到 `Released` 时触发 `OnReleased`。
+- 机关逻辑应通过 `UnityEvent` 暴露：
+
+```csharp
+[SerializeField] private UnityEvent onPressed;
+[SerializeField] private UnityEvent onReleased;
+```
+
+- 以后在 Inspector 里可以直接把门、平台、灯、陷阱、音效等对象的方法拖进事件列表。
+- 按钮本身只负责检测压力和广播事件，不直接知道门或机关怎么工作。
+
+### 一次性按钮
+
+- 建议脚本名：`OneShotPressureButton`。
+- 第一次被有效物体压下时：
+  - 设置为永久 `Pressed`。
+  - 触发 `onPressed`。
+  - 禁止之后回弹。
+- 离开按钮后：
+  - 不触发 `onReleased`。
+  - 仍保持按下状态。
+- 适合用途：
+  - 永久开门。
+  - 一次性机关。
+  - 剧情触发点。
+
+### 重物压感按钮
+
+- 建议脚本名：`WeightedPressureButton`。
+- 只有符合条件的物体停留在触发区域内，按钮才保持 `Pressed`。
+- 所有有效重物离开后：
+  - 按钮回到 `Released`。
+  - 触发 `onReleased`。
+- 后续机关应利用 `onPressed` / `onReleased` 成对控制：
+  - `onPressed`：开门、启用平台、通电。
+  - `onReleased`：关门、停用平台、断电。
+- 需要支持多个重物同时压在上面：
+  - 只要有效物体数量大于 0，就保持按下。
+  - 只有有效物体数量回到 0，才回弹。
+
+### 有效压力来源
+
+后续实现时建议至少支持一种筛选方式：
+
+- 通过 LayerMask 判断哪些物体能压按钮。
+- 或通过 Tag 判断，例如 `HeavyObject`。
+- 更推荐 LayerMask，因为 Inspector 配置更直观，也不容易和其他 tag 冲突。
+
+建议字段：
+
+```csharp
+[SerializeField] private LayerMask pressableLayers;
+```
+
+重物 prefab 需要：
+
+- Collider。
+- Rigidbody，或至少能稳定触发按钮的 trigger/collision 检测。
+- 所在 Layer 包含在按钮的 `pressableLayers` 中。
+
+### 物理检测建议
+
+- 按钮上方放一个 Trigger Collider 作为压力检测区。
+- 按钮脚本使用：
+  - `OnTriggerEnter`
+  - `OnTriggerExit`
+- 对 Weighted 按钮，需要维护当前压在按钮上的有效 Collider 集合，避免多个 collider 或多个物体导致状态错乱。
+- 对 OneShot 按钮，只要第一次检测到有效物体进入，就锁定为 Pressed。
+
+### 视觉和音效
+
+按钮状态切换时应预留表现接口：
+
+- 按下时模型向下移动或切换材质。
+- 回弹时模型恢复位置。
+- 按下播放音效。
+- 回弹播放音效。
+
+这些表现可以先写在按钮脚本里，也可以后续拆成单独组件。第一版优先保证逻辑和 `UnityEvent` 可配置。
+
+### 测试计划
+
+一次性按钮测试：
+
+1. 玩家或重物进入按钮检测区。
+2. 确认按钮触发 `onPressed`。
+3. 移开物体。
+4. 确认按钮不回弹，也不触发 `onReleased`。
+5. 再次进入按钮，确认不会重复触发 `onPressed`。
+
+重物压感按钮测试：
+
+1. 没有重物时按钮处于 Released。
+2. 放一个有效重物到按钮上，确认触发 `onPressed`。
+3. 重物停留时按钮保持 Pressed。
+4. 移走重物，确认触发 `onReleased`。
+5. 同时放两个重物，移走一个后按钮仍保持 Pressed。
+6. 两个重物都移走后按钮才 Released。
+
+### 当前暂不实现
+
+- 不在按钮脚本里写死开门、关门、平台移动等逻辑。
+- 不直接修改现有场景。
+- 不先做复杂动画系统，第一版以状态、检测、UnityEvent 为主。
