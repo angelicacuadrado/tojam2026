@@ -76,6 +76,6 @@ public class EnemySpawner : MonoBehaviour
     {
         EnemyAttacker attacker = enemy.GetComponentInChildren<EnemyAttacker>();
         if (attacker != null)
-            attacker.Configure(player, pos1, pos2);
+            attacker.Configure(player);
     }
 }
