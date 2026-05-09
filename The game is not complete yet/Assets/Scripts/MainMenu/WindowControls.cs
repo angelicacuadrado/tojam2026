@@ -52,8 +52,10 @@ public class WindowControls : MonoBehaviour
         }
     }
 
-    private RectState normalState;
+    private RectState normalState;        // pre-maximize rect; used by RestoreFromMaximize
     private bool normalStateCaptured;
+    private RectState minimizeRestoreState; // captured at Minimize; used by RestoreFromMinimize
+    private bool minimizeRestoreCaptured;
     private bool minimized;
     private bool maximized;
 
@@ -86,37 +88,26 @@ public class WindowControls : MonoBehaviour
     public void Minimize()
     {
         if (window == null || minimized) return;
-        if (maximized) RestoreFromMaximize();
 
-        if (!normalStateCaptured)
-        {
-            normalState = RectState.Capture(window);
-            normalStateCaptured = true;
-        }
-        else
-        {
-            normalState = RectState.Capture(window);
-        }
-
-        if (content != null) content.gameObject.SetActive(false);
-
-        // Force pivot-friendly anchors so the visible height collapses to header.
-        Vector2 currentSize = window.rect.size;
-        Vector2 anchored = window.anchoredPosition;
-        window.anchorMin = window.anchorMax = new Vector2(0.5f, 0.5f);
-        window.pivot = new Vector2(0.5f, 0.5f);
-        window.anchoredPosition = anchored;
-        window.sizeDelta = new Vector2(currentSize.x, headerHeight);
+        // Capture current rect (could be normal OR maximized) so restore returns to the same look.
+        // The maximized flag stays as-is — it's preserved across the minimize cycle.
+        minimizeRestoreState = RectState.Capture(window);
+        minimizeRestoreCaptured = true;
 
         minimized = true;
         Minimized?.Invoke(this);
+        window.gameObject.SetActive(false);
     }
 
     public void RestoreFromMinimize()
     {
         if (!minimized) return;
-        if (content != null) content.gameObject.SetActive(true);
-        if (normalStateCaptured) normalState.ApplyTo(window);
+
+        if (window != null)
+        {
+            window.gameObject.SetActive(true);
+            if (minimizeRestoreCaptured) minimizeRestoreState.ApplyTo(window);
+        }
 
         minimized = false;
         RestoredFromMinimize?.Invoke(this);
@@ -124,14 +115,14 @@ public class WindowControls : MonoBehaviour
 
     public void ToggleMaximize()
     {
+        if (minimized) return;
         if (maximized) RestoreFromMaximize();
         else Maximize();
     }
 
     public void Maximize()
     {
-        if (window == null || maximized) return;
-        if (minimized) RestoreFromMinimize();
+        if (window == null || maximized || minimized) return;
 
         normalState = RectState.Capture(window);
         normalStateCaptured = true;
@@ -147,7 +138,7 @@ public class WindowControls : MonoBehaviour
 
     public void RestoreFromMaximize()
     {
-        if (!maximized) return;
+        if (!maximized || minimized) return;
         if (normalStateCaptured) normalState.ApplyTo(window);
         maximized = false;
     }
