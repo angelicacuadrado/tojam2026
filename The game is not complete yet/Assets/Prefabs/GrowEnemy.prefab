@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 296006474568426686}
   m_Layer: 0
   m_Name: GrowEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -191,6 +191,6 @@ MonoBehaviour:
   maxHP: 3
   currentHP: 0
   zeroHPBehavior: 2
-  respawnCount: 1
+  respawnCount: -1
   growthScaleMultiplier: 2
   useDestroyOnDie: 0
