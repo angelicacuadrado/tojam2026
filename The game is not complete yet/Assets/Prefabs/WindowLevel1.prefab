@@ -463,6 +463,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WindowControls
   content: {fileID: 6211188771338469652}
   window: {fileID: 14005957632011527}
+  windowId: level1
+  windowTitle: Window
+  windowIcon: {fileID: 0}
+  isSingleton: 0
+  preserveOnClose: 0
+  headerHeight: 50
 --- !u!1 &4279463856653508927
 GameObject:
   m_ObjectHideFlags: 0

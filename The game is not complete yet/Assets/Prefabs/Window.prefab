@@ -468,7 +468,7 @@ MonoBehaviour:
   windowIcon: {fileID: 0}
   isSingleton: 0
   preserveOnClose: 0
-  headerHeight: 30
+  headerHeight: 50
 --- !u!1 &4279463856653508927
 GameObject:
   m_ObjectHideFlags: 0

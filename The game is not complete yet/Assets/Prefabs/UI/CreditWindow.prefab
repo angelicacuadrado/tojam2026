@@ -595,7 +595,7 @@ MonoBehaviour:
   windowIcon: {fileID: 0}
   isSingleton: 1
   preserveOnClose: 1
-  headerHeight: 30
+  headerHeight: 50
 --- !u!114 &6855461653742285314
 MonoBehaviour:
   m_ObjectHideFlags: 0
