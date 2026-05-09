@@ -14,6 +14,9 @@ public class Exit : MonoBehaviour
 
     [HideInInspector] public UnityEvent ExitLevel;
 
+    /// <summary>Fires whenever any Exit triggers ExitLevel. Cross-scene listeners (e.g. ChapterProgressManager) subscribe here.</summary>
+    public static event System.Action<Exit> AnyLevelCompleted;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -59,6 +62,7 @@ public class Exit : MonoBehaviour
             Debug.Log("Level Completed!");
 
             ExitLevel.Invoke();
+            AnyLevelCompleted?.Invoke(this);
         }
     }
 }
