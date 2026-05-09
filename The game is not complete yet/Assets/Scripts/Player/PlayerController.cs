@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lookInput;
     private bool jumpPressed;
+    private bool isWalking = false;
 
     private float xRotation = 0f;
 
@@ -87,6 +88,15 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded && moveInput.magnitude > 0.1f)
         {
+            if (!isWalking)
+            {
+                if (NarratorController.Instance != null)
+                {
+                    NarratorController.Instance.PlayLine("Level1_issue1");
+                }
+                isWalking = true;
+            }
+
             footstepTimer += Time.deltaTime;
             if (footstepTimer >= footstepInterval)
             {

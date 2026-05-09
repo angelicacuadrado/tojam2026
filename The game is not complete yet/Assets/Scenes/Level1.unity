@@ -631,6 +631,26 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 852140f2-7766-474d-8707-702459ba45f3
+    m_ActionName: 'Player/Interact[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 27c5f898-bc57-4ee1-8800-db469aca5fe3
+    m_ActionName: 'Player/Crouch[/Keyboard/c]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2776c80d-3c14-4091-8c56-d04ced07a2b0
+    m_ActionName: 'Player/Previous[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
+    m_ActionName: 'Player/Next[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 641cd816-40e6-41b4-8c3d-04687c349290
+    m_ActionName: 'Player/Sprint[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -663,6 +683,104 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1001 &817368687
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: eventLines.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: startSequence.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: eventLines.Array.data[0].id
+      value: Level1_issue1
+      objectReference: {fileID: 0}
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: eventLines.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1ffbf2e4dacbe3546bcb32b6d748b285, type: 3}
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: startSequence.Array.data[0].id
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: startSequence.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 02363d4402407ef488189e2346153505, type: 3}
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: eventLines.Array.data[0].subtitle
+      value: "Ohhh, sorry \u2014 that\u2019s not how it works. I\u2019ll check something.
+        Can you try to get it another way?"
+      objectReference: {fileID: 0}
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: startSequence.Array.data[0].subtitle
+      value: Oh, forget to tell you, use wasd to controll
+      objectReference: {fileID: 0}
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: eventLines.Array.data[0].delayBeforePlaying
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: startSequence.Array.data[0].delayBeforePlaying
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.15305
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.07472
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532435453316547688, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047660004043485535, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
+      propertyPath: m_Name
+      value: Narrator
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
 --- !u!1 &1099861313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1620,6 +1738,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1824194262285163921, guid: aefe6058948c84643b1391c00eeeaaa1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4526720323672335427, guid: aefe6058948c84643b1391c00eeeaaa1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1680,3 +1802,4 @@ SceneRoots:
   - {fileID: 1301026536}
   - {fileID: 2045931623391147493}
   - {fileID: 5435578242419556998}
+  - {fileID: 817368687}
