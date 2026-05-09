@@ -743,7 +743,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 088cd53d4249a2447af8908d2cb0f9a3, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 727ab83eeeabb4e4382371ef6d523e12, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -1993,6 +1993,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDamageTester
   enemyHealth: {fileID: 0}
+  animator: {fileID: 0}
+  idleStateName: Idle
+  walkStateName: Walking
+  punchStateName: Punching
+  hitStateName: Reaction Hit
+  dieStateName: Dying
+  crossFadeDuration: 0.1
+  controlRootMotionForTesting: 1
 --- !u!4 &2001525482
 Transform:
   m_ObjectHideFlags: 0

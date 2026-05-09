@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 6665217665323448466}
   - component: {fileID: 650631222537204584}
   m_Layer: 5
-  m_Name: WindowLevel2
+  m_Name: WindowLevel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -450,8 +450,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WindowControls
   content: {fileID: 6211188771338469652}
   window: {fileID: 14005957632011527}
-  windowId: level2
-  windowTitle: Game_v0.3
+  windowId: level3
+  windowTitle: Game_v0.7_RC1
   windowIcon: {fileID: 0}
   isSingleton: 1
   preserveOnClose: 0
@@ -468,7 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0e8d57d0214574bbca01420c0c2081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelHost
-  sceneName: Level2
+  sceneName: Level3
   pausePanel: {fileID: 3422186400731575556}
   resumeButton: {fileID: 7474730995749319230}
   windowControls: {fileID: 0}
@@ -1104,7 +1104,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 48aa95ed75ed52c42bac471733b68052, type: 2}
+  m_Texture: {fileID: 8400000, guid: 727ab83eeeabb4e4382371ef6d523e12, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0

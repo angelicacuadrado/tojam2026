@@ -557,7 +557,7 @@ MonoBehaviour:
   - name: Shutdown
     clip: {fileID: 8300000, guid: 3f245452dd7e1df4280d50690ea214a3, type: 3}
   - name: NewMessage
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cb82af7c903b5884c8d7acea47942e7e, type: 3}
   - name: PlayerJump
     clip: {fileID: 8300000, guid: 0ee9e1371bf3c2143aba2b4c530ba881, type: 3}
   - name: PlayerDamage
@@ -1708,7 +1708,7 @@ MonoBehaviour:
   startupDelay: 2
   autoStart: 1
   callWindow: {fileID: 920881252}
-  notificationSfxName: newmessage
+  notificationSfxName: NewMessage
 --- !u!4 &600513072
 Transform:
   m_ObjectHideFlags: 0
