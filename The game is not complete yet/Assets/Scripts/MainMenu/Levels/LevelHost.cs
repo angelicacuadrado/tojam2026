@@ -27,6 +27,7 @@ public class LevelHost : MonoBehaviour
     private bool _paused;
     private bool _sceneLoaded;
     private bool _sceneLoading;
+    private bool _levelCompleted;
 
     private void Awake()
     {
@@ -46,6 +47,7 @@ public class LevelHost : MonoBehaviour
             windowControls.Closing += OnWindowClosing;
             windowControls.Minimized += OnWindowMinimized;
         }
+        Exit.AnyLevelCompleted += OnLevelCompleted;
 
         if (!_sceneLoaded && !_sceneLoading)
         {
@@ -66,6 +68,7 @@ public class LevelHost : MonoBehaviour
             windowControls.Closing -= OnWindowClosing;
             windowControls.Minimized -= OnWindowMinimized;
         }
+        Exit.AnyLevelCompleted -= OnLevelCompleted;
         // Don't unload the scene here — Closing handles that. OnDisable also fires on
         // minimize, and we want to keep the scene loaded across minimize/restore.
     }
@@ -102,6 +105,19 @@ public class LevelHost : MonoBehaviour
         _sceneLoaded = true;
         _sceneLoading = false;
         EnterPlaying();
+
+        // Kick off the call window's incoming → connected sequence.
+        var callWindow = MessageScheduler.Instance != null ? MessageScheduler.Instance.CallWindow : null;
+        if (callWindow != null) callWindow.StartIncoming();
+    }
+
+    private void OnLevelCompleted(Exit _)
+    {
+        if (_levelCompleted) return;  // Exit can fire repeatedly if the player walks back through.
+        _levelCompleted = true;
+
+        var callWindow = MessageScheduler.Instance != null ? MessageScheduler.Instance.CallWindow : null;
+        if (callWindow != null) callWindow.StartEnding();
     }
 
     public void Pause()
@@ -148,6 +164,20 @@ public class LevelHost : MonoBehaviour
         {
             SceneManager.UnloadSceneAsync(sceneName);
             _sceneLoaded = false;
+        }
+
+        var scheduler = MessageScheduler.Instance;
+        if (scheduler != null && scheduler.CallWindow != null)
+        {
+            // If user closed mid-sequence (e.g. before "Ended Call" finished), kill the call UI.
+            scheduler.CallWindow.HideImmediate();
+        }
+
+        // Only advance the chapter once the user closes a *completed* level run.
+        // Closing without finishing the level just discards the attempt.
+        if (_levelCompleted && scheduler != null)
+        {
+            scheduler.AdvanceToNextChapter();
         }
     }
 }

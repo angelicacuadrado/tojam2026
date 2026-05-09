@@ -12,4 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa7cb241c5a04ae19106c612d4c0d404, type: 3}
   m_Name: Chapter_02
   m_EditorClassIdentifier: Assembly-CSharp::MessageChapter
-  messages: []
+  startTimeLabel: 3:47AM
+  messages:
+  - body: Okay, good news.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: I fixed the coin bug.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: At least I changed the coin code, which is basically the same thing.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Also, while I was in there, I added combat.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: You have a gun now.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: And there is one enemy.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Just one zombie for now. I did not want to over-scope.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: 'The test is simple: shoot the zombie, collect three coins, and reach the
+      exit.'
+    delayAfterPrevious: 3
+    buttonLabel: Game_v0.3.exe
+    windowPrefabToOpen: {fileID: 3365668955944777570, guid: 0d9ce393efb7ed648bf055435550cc76, type: 3}
+  - body: This version should be much more stable.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: I mean, it has more features, so statistically something has to work.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}

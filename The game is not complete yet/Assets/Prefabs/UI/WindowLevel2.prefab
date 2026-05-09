@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 6665217665323448466}
   - component: {fileID: 650631222537204584}
   m_Layer: 5
-  m_Name: WindowLevel1
+  m_Name: WindowLevel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -450,8 +450,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WindowControls
   content: {fileID: 6211188771338469652}
   window: {fileID: 14005957632011527}
-  windowId: level1
-  windowTitle: Game_v0.1
+  windowId: level2
+  windowTitle: Game_v0.3
   windowIcon: {fileID: 0}
   isSingleton: 1
   preserveOnClose: 0
@@ -468,7 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0e8d57d0214574bbca01420c0c2081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelHost
-  sceneName: Level1
+  sceneName: Level2
   pausePanel: {fileID: 3422186400731575556}
   resumeButton: {fileID: 7474730995749319230}
   windowControls: {fileID: 0}
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game_v0.1
+  m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
