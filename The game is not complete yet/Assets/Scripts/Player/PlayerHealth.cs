@@ -49,7 +49,12 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
-            Respawn();
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX("PlayerDie");
+            }
+
+            Invoke(nameof(Respawn), 2.0f);
         }
         else
         {
@@ -57,6 +62,8 @@ public class PlayerHealth : MonoBehaviour
             rb.AddForce(direction * knockbackForce, ForceMode.Impulse);
             // Start invincibility
             invincibilityTimer = invincibilityDuration;
+            //Play damage sound effect
+            AudioManager.Instance.PlaySFX("PlayerDamage");
         }
     }
 
@@ -64,6 +71,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         transform.position = respawnPoint.position;
+        AudioManager.Instance.PlaySFX("PlayerRespawn");
         rb.linearVelocity = Vector3.zero; // Reset velocity on respawn
     }
 }

@@ -36,6 +36,11 @@ public class PlayerAttack : MonoBehaviour
                 // Initialize the bullet's direction based on the player's facing direction
                 bullet.Initialize(firePoint.forward, bulletPool);
             }
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX("PlayerShoot");
+            }
         }
         attackInput = false; // Reset attack input after attacking
     }

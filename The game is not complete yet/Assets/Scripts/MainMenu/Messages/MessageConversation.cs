@@ -5,7 +5,6 @@ using UnityEngine;
 [Serializable]
 public class MessageEntry
 {
-    public string sender = "Friend";
     [TextArea(1, 4)] public string body;
     [Tooltip("Seconds to wait after the previous message (or after chapter start, for the first one) before delivery.")]
     public float delayAfterPrevious = 3f;

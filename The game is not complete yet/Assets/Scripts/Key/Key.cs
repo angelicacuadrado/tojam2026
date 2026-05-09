@@ -50,6 +50,11 @@ public class Key : MonoBehaviour, IPoolable
                 GameManager.Instance.AddKey();
                 poolOwner.ReturnToPool(gameObject, poolKey);
             }
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.Play3DSFX("KeyPickup", transform.position);
+            }
         }
     }
 
