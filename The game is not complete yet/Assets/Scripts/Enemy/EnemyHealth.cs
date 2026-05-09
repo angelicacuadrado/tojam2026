@@ -1,14 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EnemyZeroHPBehavior
-{
-    Die,
-    Respawn,
-    RespawnAndGrow
-}
-
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour, IAttackable
 {
     [Header("Health")]
     [SerializeField] private int maxHP = 3;
@@ -23,6 +16,7 @@ public class EnemyHealth : MonoBehaviour
     private Vector3 lastDeathPosition;
     private int respawnsRemaining;
 
+    //Properties
     public int CurrentHP => currentHP;
     public int MaxHP => maxHP;
 
