@@ -25,6 +25,11 @@ public class PlayerController : MonoBehaviour
 
     private float xRotation = 0f;
 
+    // Properties
+    public float MoveSpeed => moveSpeed;
+    public float JumpForce => jumpForce;
+    public bool IsGrounded => isGrounded;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();

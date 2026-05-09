@@ -1,23 +1,56 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class KeyMovement : MonoBehaviour
 {
-    [SerializeField, Tooltip("The player transform that the key will follow")]
-    private Transform player;
-    [SerializeField, Tooltip("Speed at which the key follows the player")]
-    private float followSpeed = 5f;
-    [SerializeField, Tooltip("Distance the key maintains from the player")]
-    private float followDistance = 1.5f;
+    [Header("References")]
+    [SerializeField] private GameObject player;
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private Rigidbody rb;
 
-    private void Update()
+    [Header("Movement Settings")]
+    private Vector2 moveInput;
+    private bool jumpQueued;
+
+    private void Awake()
     {
-        if (player == null)
-            return;
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+    }
 
-        // Desired position: behind the player at a fixed distance
-        Vector3 targetPos = player.position - player.forward * followDistance;
+    // Called by PlayerInput
+    public void OnMove(InputAction.CallbackContext ctx)
+    {
+        moveInput = ctx.ReadValue<Vector2>();
+    }
 
-        // Smooth follow
-        transform.position = Vector3.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
+    public void OnJump(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+            jumpQueued = true;
+    }
+
+    private void FixedUpdate()
+    {
+        HandleMovement();
+        HandleJump();
+    }
+
+    private void HandleMovement()
+    {
+        Vector3 move = (player.transform.right * moveInput.x + player.transform.forward * moveInput.y)
+            * playerController.MoveSpeed * Time.fixedDeltaTime;
+        rb.MovePosition(rb.position + move);
+    }
+
+    private void HandleJump()
+    {
+        // Check if player is grounded by accessing PlayerController's IsGrounded property
+        if (jumpQueued && playerController.IsGrounded)
+        {
+            rb.AddForce(Vector3.up * playerController.JumpForce, ForceMode.Impulse);
+        }
+
+        jumpQueued = false; // consume jump
     }
 }

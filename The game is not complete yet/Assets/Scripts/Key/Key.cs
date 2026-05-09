@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// Represents a collectible key that supports object pooling and interacts with game objects in the scene.
+/// </summary>
+/// <remarks>Handles visual animation, pooling integration, and collection logic when interacting with specified
+/// objects.</remarks>
 public class Key : MonoBehaviour, IPoolable
 {
     [SerializeField, Tooltip("Tag of the object that can collect this key")]
@@ -18,25 +23,19 @@ public class Key : MonoBehaviour, IPoolable
     private float bobbingAmplitude = 0.25f;
     [SerializeField, Tooltip("Frequency of the bobbing effect")]
     private float bobbingFrequency = 1f;
-    [SerializeField, Tooltip("Initial position of the key for bobbing effect")]
     private Vector3 initialPosition;
 
     // Properties for IPoolable interface
     public string PoolKey { get => poolKey; set => poolKey = value; }
     public ObjectPooler PoolOwner { get => poolOwner; set => poolOwner = value; }
 
-    private void Start()
-    {
-        initialPosition = transform.position;
-    }
-
     private void Update()
     {
         // Rotate the key
-        visual.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.Self);
+        visual.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime, Space.Self);
 
         // Bobbing effect
-        float newY = initialPosition.y + Mathf.Sin(Time.time * bobbingFrequency) * bobbingAmplitude;
+        float newY = Mathf.Sin(Time.time * bobbingFrequency) * bobbingAmplitude;
         Vector3 localPos = visual.localPosition;
         localPos.y = newY;
         visual.localPosition = localPos;

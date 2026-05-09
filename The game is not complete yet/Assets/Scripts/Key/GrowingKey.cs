@@ -1,16 +1,10 @@
 using UnityEngine;
 
-public class GrowingKey : MonoBehaviour
+public class GrowingKey : Key, IAttackable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void TakeDamage (float damage)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Implement logic to reduce the key's health or trigger a reaction
+        Debug.Log($"GrowingKey took {damage} damage!");
     }
 }
