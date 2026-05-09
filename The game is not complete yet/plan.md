@@ -440,3 +440,78 @@ NavMesh 需要：
 ```powershell
 git config --global --add safe.directory D:/TOJam2026
 ```
+
+## 2026-05-08 今日进度记录
+
+### 已实现脚本
+
+- `EnemyAttacker.cs`
+  - 使用 `NavMeshAgent` 在 `pos1` 和 `pos2` 之间巡逻。
+  - 支持 `canChasePlayer` 开关。
+  - `canChasePlayer == true` 时，玩家进入 `detectionRange` 后追逐玩家。
+  - 玩家进入 `attackRange` 后停止移动并按冷却攻击。
+  - `canChasePlayer == false` 时，不主动追逐玩家，只巡逻。
+  - 碰撞攻击不受 `canChasePlayer` 影响，玩家主动撞上敌人仍会触发伤害和击退。
+  - 攻击玩家时调用 `PlayerHealth.TakeDamage(int damage, Vector3 direction)`。
+  - 击退方向按“敌人指向玩家”的水平向量计算，并支持 `knockbackForce` 和 `knockbackUpwardForce`。
+  - 巡逻点到达判断改为 `NavMeshAgent.remainingDistance` 加水平距离兜底，避免敌人卡在巡逻点附近不切换目标。
+
+- `EnemyHealth.cs`
+  - 实现敌人 HP、`TakeDamage(int amount)`、`ResetHealth()`。
+  - `EnemyZeroHPBehavior` 支持三种行为：
+    - `Die`
+    - `Respawn`
+    - `RespawnAndGrow`
+  - `Respawn`：死亡位置原地复活，不变大。
+  - `RespawnAndGrow`：死亡位置原地复活，并调用 `EnemyGrower.Grow(...)` 变大。
+  - 新增 `respawnCount`：
+    - `0`：不复活。
+    - 正数：最多复活对应次数。
+    - `-1`：无限复活。
+  - 复活位置固定为敌人死亡时的位置，不再使用 `respawnPoint`。
+
+- `EnemyGrower.cs`
+  - 实现 `Grow(float multiplier)`。
+  - 支持 `maxScaleMultiplier`，限制敌人相对初始 scale 的最大成长倍率。
+  - 实现 `ResetScale()`。
+
+- `EnemySpawner.cs`
+  - 从单个 prefab/spawnCount 模式改为列表模式。
+  - 新增 `EnemySpawnEntry`：
+
+```csharp
+[System.Serializable]
+public class EnemySpawnEntry
+{
+    public GameObject enemyPrefab;
+    public int count = 1;
+}
+```
+
+  - 开发者可以在 Inspector 里配置多个敌人 prefab，以及每种 prefab 的生成数量。
+  - Spawner 不覆盖 prefab 上的敌人参数；HP、伤害、是否追逐、成长行为都由各 prefab 自己决定。
+  - 生成后仍会给敌人注入通用引用：`player`、`pos1`、`pos2`。
+  - 多个敌人生成时会在 `spawnPoint` 附近按圆形偏移分散，避免完全重叠。
+
+- `EnemyDamageTester.cs`
+  - 临时测试脚本改为新版 Input System 写法。
+  - 按 `T` 调用绑定敌人的 `EnemyHealth.TakeDamage(1)`。
+
+### 场景/配置检查结果
+
+- `Level2` 中已经有 `NavMeshSurface`，并且存在 baked NavMesh 数据。
+- `Player` 已经挂上 `PlayerHealth`。
+- 之前场景里预放 Enemy 和 Spawner 同时存在的问题已识别；推荐只通过 `EnemySpawner` 生成敌人。
+- `Enemy.prefab` 曾出现 `detectionRange == attackRange` 的配置，这会导致敌人刚发现玩家就进入攻击状态，看不到追逐过程。建议保持：
+  - `detectionRange > attackRange`
+  - 例如 `detectionRange = 6`，`attackRange = 1.5`
+
+### 验证
+
+- 多次运行：
+
+```powershell
+dotnet build "The game is not complete yet.sln" --no-restore
+```
+
+- 最新结果：构建成功，`0 Warning(s), 0 Error(s)`。

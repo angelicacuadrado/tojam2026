@@ -17,6 +17,7 @@ public partial class EnemyAttacker : MonoBehaviour
     private PlayerHealth playerHealth;
     private EnemyState state = EnemyState.Chase;
     private float nextAttackTime;
+    private Animator animator => GetComponentInChildren<Animator>();
 
     private void Awake()
     {
@@ -78,6 +79,27 @@ public partial class EnemyAttacker : MonoBehaviour
         Vector3 knockback = BuildKnockbackVector(player.position);
         playerHealth.TakeDamage(damagePerAttack, knockback);
         nextAttackTime = Time.time + attackCooldown;
+
+        if (animator != null)
+        {
+            if (animator.name == "Zombie Cartoon_01")
+            {
+                animator.SetTrigger("attack");
+            }
+            else if (animator.name == "Skeleton_110")
+            {
+                switch (Random.Range(0f, 1f))
+                {
+                    case float n when (n < 0.5f):
+                        animator.SetTrigger("attack1");
+                        break;
+                    default:
+                        animator.SetTrigger("attack2");
+                        break;
+                }
+            }
+
+        }
     }
 
     private Vector3 BuildKnockbackVector(Vector3 targetPosition)

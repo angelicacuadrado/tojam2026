@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2365102285047320853}
   - component: {fileID: 7138526405310162137}
   - component: {fileID: 296006474568426686}
+  - component: {fileID: 6741475895704024281}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -144,17 +145,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4808522ffe1dce348b7a31f9c4e48d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttacker
-  pos1: {fileID: 0}
-  pos2: {fileID: 0}
   player: {fileID: 0}
-  canChasePlayer: 1
-  detectionRange: 3
   attackRange: 1.5
   damagePerAttack: 1
   attackCooldown: 1
   knockbackForce: 6
   knockbackUpwardForce: 0
-  patrolPointReachDistance: 0.3
 --- !u!114 &7138526405310162137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e70f68dd145b9c94e8b40974baaaccdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyGrower
+  patrolPointReachDistance: 0.3
+  patrolPoints:
+  - {fileID: 0}
+  - {fileID: 0}
   maxScaleMultiplier: 3
 --- !u!114 &296006474568426686
 MonoBehaviour:
@@ -186,6 +186,28 @@ MonoBehaviour:
   respawnCount: 0
   growthScaleMultiplier: 2
   useDestroyOnDie: 1
+--- !u!95 &6741475895704024281
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641234101394594668}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: c3543ee10a04bd340b8a8787af6d367d, type: 3}
+  m_Controller: {fileID: 9100000, guid: 4249df731a39f7540a47aee875a3455e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &8164152518848344437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -194,6 +216,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7025413929969764729}
     m_Modifications:
+    - target: {fileID: 924104645172727949, guid: 887892bfa2741064a9f1a642a0522be9, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5870697472782929997, guid: 887892bfa2741064a9f1a642a0522be9, type: 3}
       propertyPath: m_Name
       value: Zombie Cartoon_01
