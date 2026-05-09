@@ -54,7 +54,7 @@ public class MessageScheduler : MonoBehaviour
 
     private IEnumerator InitialDelay()
     {
-        if (startupDelay > 0f) yield return new WaitForSeconds(startupDelay);
+        if (startupDelay > 0f) yield return new WaitForSecondsRealtime(startupDelay);
         startupDone = true;
         AdvanceToNextChapter();
     }
@@ -96,7 +96,7 @@ public class MessageScheduler : MonoBehaviour
             foreach (var entry in chapter.messages)
             {
                 if (entry == null) continue;
-                if (entry.delayAfterPrevious > 0f) yield return new WaitForSeconds(entry.delayAfterPrevious);
+                if (entry.delayAfterPrevious > 0f) yield return new WaitForSecondsRealtime(entry.delayAfterPrevious);
                 delivered.Add(entry);
                 MessageDelivered?.Invoke(entry);
                 if (!SuppressNotificationSound && AudioManager.Instance != null && !string.IsNullOrEmpty(notificationSfxName))
