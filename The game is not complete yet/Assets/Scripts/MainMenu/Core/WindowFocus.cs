@@ -15,5 +15,6 @@ public class WindowFocus : MonoBehaviour, IPointerDownHandler
     {
         if (WindowManager.Instance == null) return;
         WindowManager.Instance.BringToFront(controls);
+       
     }
 }
