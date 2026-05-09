@@ -77,15 +77,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayVoice(string soundName)
+    public void PlayVoice(AudioClip clip)
     {
-        if (soundDictionary.TryGetValue(soundName, out AudioClip clip))
-        {
-            voiceSource.Stop();
-            voiceSource.clip = clip;
-            voiceSource.Play();
-        }
+        if (clip == null || voiceSource == null) return;
+
+        voiceSource.Stop();
+        voiceSource.clip = clip;
+        voiceSource.Play();
     }
+
     public void Play3DSFX(string soundName, Vector3 position)
     {
         if (soundDictionary.TryGetValue(soundName, out AudioClip clip))
