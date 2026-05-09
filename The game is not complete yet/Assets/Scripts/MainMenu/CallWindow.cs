@@ -10,8 +10,6 @@ public class CallWindow : MonoBehaviour
     [SerializeField] private string incomingText = "Incoming...";
     [SerializeField] private Color incomingColor = Color.black;
     [SerializeField] private float incomingDuration = 1f;
-    [Tooltip("AudioManager SFX key played when 'Incoming...' appears.")]
-    [SerializeField] private string incomingSfxName = "ringin";
 
     [Header("Connected")]
     [SerializeField] private string connectedText = "Connected";
@@ -23,8 +21,6 @@ public class CallWindow : MonoBehaviour
     [SerializeField] private string endedText = "Ended Call";
     [SerializeField] private Color endedColor = Color.red;
     [SerializeField] private float endedDuration = 1f;
-    [Tooltip("AudioManager SFX key played when 'Ended Call' appears (call hang-up).")]
-    [SerializeField] private string endedSfxName = "nofify";
 
     private Coroutine _routine;
 
@@ -61,7 +57,6 @@ public class CallWindow : MonoBehaviour
     private IEnumerator IncomingRoutine()
     {
         SetText(incomingText, incomingColor);
-        PlaySfx(incomingSfxName);
         yield return new WaitForSecondsRealtime(incomingDuration);
         SetText(connectedText, connectedColor);
         _routine = null;
@@ -71,17 +66,9 @@ public class CallWindow : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(endingDelay);
         SetText(endedText, endedColor);
-        PlaySfx(endedSfxName);
         yield return new WaitForSecondsRealtime(endedDuration);
         gameObject.SetActive(false);
         _routine = null;
-    }
-
-    private static void PlaySfx(string sfxName)
-    {
-        if (string.IsNullOrEmpty(sfxName)) return;
-        if (AudioManager.Instance == null) return;
-        AudioManager.Instance.PlaySFX(sfxName);
     }
 
     private void SetText(string text, Color color)

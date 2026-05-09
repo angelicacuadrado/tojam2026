@@ -555,12 +555,8 @@ MonoBehaviour:
     clip: {fileID: 0}
   - name: Shutdown
     clip: {fileID: 8300000, guid: 3f245452dd7e1df4280d50690ea214a3, type: 3}
-  - name: newmessage
-    clip: {fileID: 8300000, guid: cb82af7c903b5884c8d7acea47942e7e, type: 3}
-  - name: callin
-    clip: {fileID: 8300000, guid: 6216f8d44dc92394696d2a3830d6ad02, type: 3}
-  - name: callend
-    clip: {fileID: 8300000, guid: 60fe9e4f726152a4496e8f7ae2aaeff7, type: 3}
+  - name: NewMessage
+    clip: {fileID: 0}
   bgmSource: {fileID: 66979202}
   sfxSource: {fileID: 66979201}
   voiceSource: {fileID: 66979200}
@@ -2062,14 +2058,12 @@ MonoBehaviour:
   incomingText: Incoming...
   incomingColor: {r: 0, g: 0, b: 0, a: 1}
   incomingDuration: 1
-  incomingSfxName: callin
   connectedText: Connected
   connectedColor: {r: 0, g: 1, b: 0, a: 1}
   endingDelay: 3
   endedText: Ended Call
   endedColor: {r: 1, g: 0, b: 0, a: 1}
   endedDuration: 1
-  endedSfxName: callend
 --- !u!1 &1128604000
 GameObject:
   m_ObjectHideFlags: 0
