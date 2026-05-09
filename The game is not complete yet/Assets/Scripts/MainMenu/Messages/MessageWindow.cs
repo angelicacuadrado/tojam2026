@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MessageWindow : MonoBehaviour
 {
     [SerializeField] private MessageBubble bubblePrefab;
+    [SerializeField] private TimeBubble timeBubblePrefab;
 
     [Header("Contacts — left-side buttons")]
     [SerializeField] private Button devMessage;
@@ -41,11 +42,17 @@ public class MessageWindow : MonoBehaviour
     [SerializeField] private float topPadding = 20f;
     [SerializeField] private float bottomPadding = 20f;
     [SerializeField] private float leftPadding = 20f;
-    [Tooltip("Vertical gap between consecutive bubbles.")]
+    [Tooltip("Vertical gap between two consecutive message bubbles.")]
     [SerializeField] private float bubbleSpacing = 20f;
+    [Tooltip("Vertical gap above and below a chapter time bubble. The actual gap between two items is max(prev.after, next.before).")]
+    [SerializeField] private float chapterMarkerSpacing = 40f;
 
     private bool _devSelected;
+
+    // Layout cursor for Dev's panel (live updates accumulate into these).
     private float _devNextY;
+    private float _devLastAfterMargin;
+    private bool _devFirstPlaced;
 
     private void OnEnable()
     {
@@ -67,6 +74,7 @@ public class MessageWindow : MonoBehaviour
         if (scheduler != null)
         {
             scheduler.MessageDelivered += OnDevMessageDelivered;
+            scheduler.TimeMarkerDelivered += OnDevTimeMarkerDelivered;
             scheduler.SuppressNotificationSound = false;
         }
     }
@@ -77,6 +85,7 @@ public class MessageWindow : MonoBehaviour
         if (scheduler != null)
         {
             scheduler.MessageDelivered -= OnDevMessageDelivered;
+            scheduler.TimeMarkerDelivered -= OnDevTimeMarkerDelivered;
             scheduler.SuppressNotificationSound = false;
         }
     }
@@ -85,27 +94,32 @@ public class MessageWindow : MonoBehaviour
     {
         ClearContainer(devMessageContainer);
         _devNextY = -topPadding;
+        _devLastAfterMargin = 0f;
+        _devFirstPlaced = false;
         UpdateContentHeight(devMessageContainer, _devNextY);
 
         var scheduler = MessageScheduler.Instance;
         if (scheduler == null) return;
-        foreach (var entry in scheduler.Delivered)
+        foreach (var item in scheduler.DeliveredItems)
         {
-            SpawnDevBubble(entry);
+            if (item.Kind == MessageScheduler.FeedItemKind.TimeMarker)
+                SpawnDevTimeMarker(item.TimeLabel);
+            else
+                SpawnDevBubble(item.Message);
         }
     }
 
     private void OnDevMessageDelivered(MessageEntry entry)
     {
         SpawnDevBubble(entry);
-        if (_devSelected)
-        {
-            ScrollToBottom(devScrollRect);
-        }
-        else
-        {
-            SetActiveSafe(devUnreadDot, true);
-        }
+        if (_devSelected) ScrollToBottom(devScrollRect);
+        else SetActiveSafe(devUnreadDot, true);
+    }
+
+    private void OnDevTimeMarkerDelivered(string label)
+    {
+        SpawnDevTimeMarker(label);
+        if (_devSelected) ScrollToBottom(devScrollRect);
     }
 
     private void SelectDev()
@@ -135,12 +149,32 @@ public class MessageWindow : MonoBehaviour
 
     private void SpawnDevBubble(MessageEntry entry)
     {
-        if (bubblePrefab == null || devMessageContainer == null) return;
+        if (bubblePrefab == null || devMessageContainer == null || entry == null) return;
         var bubble = Instantiate(bubblePrefab, devMessageContainer);
         bubble.Set(entry);
+        ApplyGap(ref _devNextY, ref _devLastAfterMargin, ref _devFirstPlaced, bubbleSpacing);
         var rect = (RectTransform)bubble.transform;
         rect.anchoredPosition = new Vector2(leftPadding, _devNextY);
-        _devNextY -= bubble.TotalHeight + bubbleSpacing;
+        _devNextY -= bubble.TotalHeight;
+        _devLastAfterMargin = bubbleSpacing;
+        UpdateContentHeight(devMessageContainer, _devNextY);
+    }
+
+    private void SpawnDevTimeMarker(string label)
+    {
+        if (timeBubblePrefab == null || devMessageContainer == null || string.IsNullOrEmpty(label)) return;
+        var marker = Instantiate(timeBubblePrefab, devMessageContainer);
+        marker.Set(label);
+        ApplyGap(ref _devNextY, ref _devLastAfterMargin, ref _devFirstPlaced, chapterMarkerSpacing);
+        var rect = (RectTransform)marker.transform;
+        // Force top-center anchor + pivot so anchoredPosition.x = 0 means horizontally centered,
+        // regardless of how the prefab was set up.
+        rect.anchorMin = new Vector2(0.5f, 1f);
+        rect.anchorMax = new Vector2(0.5f, 1f);
+        rect.pivot = new Vector2(0.5f, 1f);
+        rect.anchoredPosition = new Vector2(0f, _devNextY);
+        _devNextY -= marker.Height;
+        _devLastAfterMargin = chapterMarkerSpacing;
         UpdateContentHeight(devMessageContainer, _devNextY);
     }
 
@@ -149,6 +183,9 @@ public class MessageWindow : MonoBehaviour
         if (container == null) return;
         ClearContainer(container);
         float nextY = -topPadding;
+        float lastAfter = 0f;
+        bool firstPlaced = false;
+
         if (entries != null && bubblePrefab != null)
         {
             for (int i = 0; i < entries.Count; i++)
@@ -157,12 +194,27 @@ public class MessageWindow : MonoBehaviour
                 if (entry == null) continue;
                 var bubble = Instantiate(bubblePrefab, container);
                 bubble.Set(entry);
+                ApplyGap(ref nextY, ref lastAfter, ref firstPlaced, bubbleSpacing);
                 var rect = (RectTransform)bubble.transform;
                 rect.anchoredPosition = new Vector2(leftPadding, nextY);
-                nextY -= bubble.TotalHeight + bubbleSpacing;
+                nextY -= bubble.TotalHeight;
+                lastAfter = bubbleSpacing;
             }
         }
         UpdateContentHeight(container, nextY);
+    }
+
+    /// <summary>
+    /// Advances the y cursor by the gap before the next item: max(prev.after, next.before).
+    /// First item gets no leading gap (top padding handles that).
+    /// </summary>
+    private static void ApplyGap(ref float nextY, ref float lastAfter, ref bool firstPlaced, float beforeMargin)
+    {
+        if (firstPlaced)
+        {
+            nextY -= Mathf.Max(lastAfter, beforeMargin);
+        }
+        firstPlaced = true;
     }
 
     private void ClearContainer(RectTransform container)
@@ -177,7 +229,7 @@ public class MessageWindow : MonoBehaviour
     private void UpdateContentHeight(RectTransform container, float nextY)
     {
         if (container == null) return;
-        float used = -nextY - bubbleSpacing + bottomPadding;
+        float used = -nextY + bottomPadding;
         if (used < topPadding + bottomPadding) used = topPadding + bottomPadding;
         var size = container.sizeDelta;
         container.sizeDelta = new Vector2(size.x, used);

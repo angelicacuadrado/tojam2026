@@ -1883,6 +1883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MessageWindow
   bubblePrefab: {fileID: 790122858278298496, guid: 44bb6f1b31450dd4a95e4388d413b8cd, type: 3}
+  timeBubblePrefab: {fileID: 4385534867376349077, guid: abf308357b5b7864eba807bbe23a6fc6, type: 3}
   devMessage: {fileID: 1079426595491595650}
   person1Message: {fileID: 1036152339857416031}
   person2Message: {fileID: 6475813682354226766}
@@ -1914,6 +1915,7 @@ MonoBehaviour:
   bottomPadding: 20
   leftPadding: 20
   bubbleSpacing: 20
+  chapterMarkerSpacing: 40
 --- !u!114 &-8233018907301686801
 MonoBehaviour:
   m_ObjectHideFlags: 0
