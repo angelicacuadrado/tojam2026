@@ -7,8 +7,8 @@ using UnityEngine;
 /// objects.</remarks>
 public class Key : MonoBehaviour, IPoolable
 {
-    [SerializeField, Tooltip("Tag of the object that can collect this key")]
-    private string tagToCheck;
+    [SerializeField, Tooltip("Tags of the objects that can collect this key")]
+    private string[] tagsToCheck;
     [SerializeField, Tooltip("Key used for object pooling")]
     private string poolKey;
     [SerializeField, Tooltip("Object pooler that owns this key")]
@@ -43,14 +43,18 @@ public class Key : MonoBehaviour, IPoolable
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(tagToCheck))
+        foreach (string tagToCheck in tagsToCheck)
         {
+            if (other.CompareTag(tagToCheck))
+            {
+                GameManager.Instance.AddKey();
+                poolOwner.ReturnToPool(gameObject, poolKey);
+            }
+
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.Play3DSFX("KeyPickup", transform.position);
             }
-            GameManager.Instance.AddKey();
-            poolOwner.ReturnToPool(gameObject, poolKey);
         }
     }
 
