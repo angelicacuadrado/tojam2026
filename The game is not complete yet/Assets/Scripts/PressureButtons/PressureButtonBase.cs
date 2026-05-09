@@ -72,12 +72,10 @@ public abstract class PressureButtonBase : MonoBehaviour
 
     protected virtual void OnPressed()
     {
-        Debug.Log($"{name} pressed.", this);
         onPressed?.Invoke();
     }
 
     protected virtual void OnReleased()
     {
-        Debug.Log($"{name} released.", this);
     }
 }

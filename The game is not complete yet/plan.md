@@ -767,3 +767,266 @@ public class EnemyAnimationEventRelay : MonoBehaviour
 - 不在按钮脚本里写死开门、关门、平台移动等逻辑。
 - 不直接修改现有场景。
 - 不先做复杂动画系统，第一版以状态、检测、UnityEvent 为主。
+
+## 后续功能计划：门事件组件
+
+### 目标
+
+新增一个可被按钮 `UnityEvent` 调用的门控制脚本，用于：
+
+- 开门：播放开门动画。
+- 关门：倒放同一个开门动画。
+
+按钮脚本不直接知道门的存在。场景配置时只需要在按钮的事件列表里拖入门对象，然后选择门脚本的公开方法。
+
+### 建议脚本
+
+建议脚本名：
+
+- `DoorAnimationController`
+
+建议放置路径：
+
+- `Assets/Scripts/Mechanisms/DoorAnimationController.cs`
+
+### 公开事件方法
+
+脚本需要暴露两个 public 方法，方便在 Inspector 的 `UnityEvent` 中选择：
+
+```csharp
+public void OpenDoor()
+public void CloseDoor()
+```
+
+配置方式：
+
+- 一次性按钮：
+  - `OnPressed -> DoorAnimationController.OpenDoor()`
+  - 不需要配置关门。
+- 重物压感按钮：
+  - `OnPressed -> DoorAnimationController.OpenDoor()`
+  - `OnReleased -> DoorAnimationController.CloseDoor()`
+
+### 动画播放方式
+
+第一版建议使用 `Animator` 控制门动画：
+
+- 门对象上挂 `Animator`。
+- Animator Controller 中至少有一个开门动画 state。
+- `OpenDoor()`：
+  - 将动画播放速度设为正数。
+  - 从当前位置或从头播放开门动画。
+- `CloseDoor()`：
+  - 将动画播放速度设为负数。
+  - 从当前位置或从末尾倒放开门动画。
+
+建议字段：
+
+```csharp
+[SerializeField] private Animator animator;
+[SerializeField] private string openStateName = "Open";
+[SerializeField] private float playbackSpeed = 1f;
+```
+
+### 状态约束
+
+门脚本需要避免重复触发造成状态混乱：
+
+- 如果门已经开着，再调用 `OpenDoor()` 不应重播或抖动。
+- 如果门已经关着，再调用 `CloseDoor()` 不应重播或抖动。
+- 如果正在开门时调用关门，应允许从当前动画进度倒放。
+- 如果正在关门时调用开门，应允许从当前动画进度正放。
+
+建议维护状态：
+
+```csharp
+private bool isOpen;
+private bool isMoving;
+```
+
+但第一版可以更简单：
+
+- 通过 `Animator.Play(openStateName, 0, normalizedTime)` 控制播放方向。
+- 开门时如果当前 normalized time 接近 1，视为已经打开。
+- 关门时如果当前 normalized time 接近 0，视为已经关闭。
+
+### 倒放注意事项
+
+Unity 动画倒放时需要注意：
+
+- Animator state 的 speed 可以设为负数，或使用 Animator 参数控制 speed multiplier。
+- 如果直接设置 `animator.speed = -1`，会影响整个 Animator。
+- 更稳的第一版可以只让门 Animator 里有一个动画 state，并由脚本设置 `animator.speed`。
+- 关门前需要确保动画采样点在末尾或当前开门进度，否则从 0 倒放会看起来没反应。
+
+建议逻辑：
+
+```csharp
+OpenDoor():
+    animator.speed = playbackSpeed;
+    animator.Play(openStateName, 0, currentNormalizedTime);
+
+CloseDoor():
+    animator.speed = -playbackSpeed;
+    animator.Play(openStateName, 0, currentNormalizedTime);
+```
+
+如果当前动画没有有效进度：
+
+- 开门默认从 `0` 开始。
+- 关门默认从 `1` 开始。
+
+### 配置要求
+
+门 prefab / 场景物体需要：
+
+- Animator。
+- Animator Controller。
+- 一个开门动画 state，名称和 `openStateName` 一致，默认建议叫 `Open`。
+- 该开门动画不要勾 Loop。
+
+按钮配置：
+
+- 一次性按钮只拖 `OpenDoor()`。
+- 重物按钮拖：
+  - `OnPressed -> OpenDoor()`
+  - `OnReleased -> CloseDoor()`
+
+### 测试计划
+
+一次性按钮 + 门：
+
+1. 按钮被触发。
+2. 确认 Console 不再依赖 Debug Log。
+3. 确认门播放开门动画。
+4. 移开物体后按钮不回弹，门保持打开。
+
+重物按钮 + 门：
+
+1. 放重物到按钮上。
+2. 确认门正向播放开门动画。
+3. 在门开到一半时移走重物。
+4. 确认门从当前进度倒放关门。
+5. 再次放上重物。
+6. 确认门从当前进度继续正向打开。
+
+### 当前暂不实现
+
+- 不在按钮脚本里写死门逻辑。
+- 不修改场景。
+- 不强制创建门 prefab。
+- 不做复杂门锁、钥匙条件、多个按钮组合逻辑；这些可以后续通过额外组件或事件组合实现。
+
+## 2026-05-09 追加进度：按钮与 Exit 开关门
+
+### 压感按钮实现
+
+- 新增按钮脚本目录：
+  - `Assets/Scripts/PressureButtons`
+- 新增通用基类：
+  - `PressureButtonBase.cs`
+  - 负责：
+    - `Pressed` / `Released` 状态切换。
+    - `Pressable Layers` 过滤。
+    - `OnPressed` 事件触发。
+    - 可选按钮视觉下压位移。
+  - 使用 `[RequireComponent(typeof(Collider))]`，添加组件时要求按钮物体带 Collider。
+- 新增一次性按钮：
+  - `OneShotPressureButton.cs`
+  - 第一次被有效物体压下后永久保持 Pressed。
+  - 只暴露 `OnPressed`，不暴露 `OnReleased`。
+- 新增重物压感按钮：
+  - `WeightedPressureButton.cs`
+  - 有有效物体停留时 Pressed。
+  - 所有有效物体离开后 Released。
+  - 暴露 `OnPressed` 和 `OnReleased`。
+  - 内部用 `HashSet<Collider>` 记录当前压在按钮上的有效 Collider，支持多个物体同时压住。
+- 曾临时加入 Debug Log 以验证按钮事件触发：
+  - pressed 时打印。
+  - released 时打印。
+  - 后续已按需求移除 Debug Log，按钮现在只触发 UnityEvent。
+
+### 按钮场景配置排查
+
+- 排查 `GrowEnemy` 为什么不能触发按钮：
+  - `GrowEnemy` 有 `CapsuleCollider`。
+  - `GrowEnemy` 有 `NavMeshAgent`，但没有 `Rigidbody`。
+  - `NavMeshAgent` 不等于 `Rigidbody`。
+  - Unity Trigger 事件通常要求参与双方至少有一个 Rigidbody。
+- 结论：
+  - 如果希望 `GrowEnemy` 能压按钮，需要给 `GrowEnemy` 或按钮一方补 Rigidbody。
+  - 对 `GrowEnemy` 建议使用 kinematic Rigidbody，并关闭 gravity，避免影响 NavMeshAgent 移动。
+  - 同时确认按钮的 `Pressable Layers` 包含 `GrowEnemy` 所在 Layer。
+
+### Exit 合并开关门事件
+
+- 原计划新增独立 `DoorAnimationController`。
+- 后续发现项目已有 `Exit.cs`，因此门开关逻辑合并进 `Exit.cs`。
+- 已删除不再需要的 `DoorAnimationController.cs`，并清理 `.csproj` 引用。
+- `Exit.cs` 新增可被按钮 UnityEvent 调用的方法：
+
+```csharp
+public void OpenDoor()
+public void CloseDoor()
+```
+
+- 配置方式：
+  - 一次性按钮：`OnPressed -> Exit.OpenDoor()`
+  - 重物按钮：
+    - `OnPressed -> Exit.OpenDoor()`
+    - `OnReleased -> Exit.CloseDoor()`
+- `OpenDoor()` 行为：
+  - 设置 Exit 为 open。
+  - Exit Collider 变为 Trigger，允许玩家进入后完成关卡。
+  - 指示灯切换为 open 材质。
+  - 门动画正向播放到打开状态。
+- `CloseDoor()` 行为：
+  - 设置 Exit 为 closed。
+  - Exit Collider 变为非 Trigger。
+  - 指示灯切换为 closed 材质。
+  - 门动画从当前进度倒放回关闭状态。
+
+### 指示灯材质调整
+
+- 原本 `Exit.cs` 会切换整个 Exit/Visuals 的 Renderer 材质。
+- 已按需求改为只切换指示灯 Renderer：
+
+```csharp
+[SerializeField] private Renderer indicatorRenderer;
+```
+
+- `Exit` prefab / 场景中需要把指示灯子物体的 Renderer 拖到 `Indicator Renderer`。
+- 不再自动抓取第一个子 Renderer，避免误改 `Visuals` 或门主体材质。
+
+### Exit 动画排查
+
+- 检查 `Assets/Art/Anmi/OpenDoor.anim`：
+  - 动画路径为 `Gate_Small/Door`。
+  - `Door.localPosition.z` 从 `0` 动到 `1.5`。
+  - 这个路径和目标子物体设计一致。
+- 检查 `Assets/Art/Anmi/Exit.controller`：
+  - Animator state 名为 `OpenDoor`。
+- 检查 `Exit.cs` 默认字段：
+  - `openStateName` 默认值为 `Open`。
+- 发现不播放动画的原因：
+  - `Exit.OpenDoor()` 已触发，所以灯会变色。
+  - 但脚本调用的是 `doorAnimator.Play("Open", ...)`。
+  - Animator Controller 里没有叫 `Open` 的 state，实际 state 叫 `OpenDoor`。
+- 解决方式：
+  - 在 `Exit` 组件 Inspector 中把 `Open State Name` 从 `Open` 改成 `OpenDoor`。
+  - 或后续把脚本默认值改成 `OpenDoor`。
+- 额外注意：
+  - `OpenDoor.anim` 当前 `Loop Time` 为 true。
+  - 门动画不应循环，建议在动画 Inspector 中取消 `Loop Time`。
+
+### 验证
+
+- 多次运行：
+
+```powershell
+dotnet build "The game is not complete yet.sln" --no-restore
+```
+
+- 构建通过。
+- 当前仍存在既有 warning：
+  - `EnemyGrower.state` 字段已赋值但未使用。
