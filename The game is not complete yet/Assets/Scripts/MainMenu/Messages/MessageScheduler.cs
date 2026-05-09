@@ -12,7 +12,20 @@ public class MessageScheduler : MonoBehaviour
     [SerializeField] private float startupDelay = 2f;
     [SerializeField] private bool autoStart = true;
 
+    /// <summary>
+    /// Set true while the user is actively reading Dev's chat — the scheduler then
+    /// skips firing <see cref="MessageNotificationRequested"/> (the notification is
+    /// meant for unattended messages, so the audio team can subscribe to that event
+    /// without having to check this flag themselves).
+    /// </summary>
+    public bool SuppressNotificationSound { get; set; }
+
     public event Action<MessageEntry> MessageDelivered;
+    /// <summary>
+    /// Fires after <see cref="MessageDelivered"/> only when the user isn't currently
+    /// reading the chat. Hook the audio system here to play the notification sound.
+    /// </summary>
+    public event Action<MessageEntry> MessageNotificationRequested;
     public event Action<int> ChapterStarted;
     public event Action<int> ChapterCompleted;
 
@@ -90,6 +103,7 @@ public class MessageScheduler : MonoBehaviour
                 if (entry.delayAfterPrevious > 0f) yield return new WaitForSeconds(entry.delayAfterPrevious);
                 delivered.Add(entry);
                 MessageDelivered?.Invoke(entry);
+                if (!SuppressNotificationSound) MessageNotificationRequested?.Invoke(entry);
             }
         }
 
