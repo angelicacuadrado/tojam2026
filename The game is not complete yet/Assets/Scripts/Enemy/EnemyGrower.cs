@@ -11,7 +11,7 @@ public class EnemyGrower : MonoBehaviour
     [SerializeField] private float patrolDelay;
     private int currentPatrolIndex = 0;
     private NavMeshAgent agent;
-    private bool isGrown = false;
+    private static bool isGrown = false;
     private bool loggedMissingPatrolPoints;
 
 
@@ -55,7 +55,7 @@ public class EnemyGrower : MonoBehaviour
 
             if (AudioManager.Instance != null)
             {
-                AudioManager.Instance.Play3DSFX("EnemyGrow", transform.position);
+                AudioManager.Instance.PlaySFX("EnemyGrow");
             }
             if (NarratorController.Instance != null && !isGrown)
             {

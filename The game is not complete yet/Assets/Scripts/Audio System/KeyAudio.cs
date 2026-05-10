@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class KeyAudio : MonoBehaviour
 {
-    private bool hasPlayed = false;
+    private static bool hasPlayed = false;
     private void OnCollisionEnter(Collision collision)
     {
         if (!hasPlayed && collision.gameObject.CompareTag("Player"))
