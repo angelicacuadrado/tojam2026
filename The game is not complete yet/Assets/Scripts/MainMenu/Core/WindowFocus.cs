@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(WindowControls))]
+//[RequireComponent(typeof(WindowControls))]
 public class WindowFocus : MonoBehaviour, IPointerDownHandler
 {
     private WindowControls controls;
@@ -9,6 +9,10 @@ public class WindowFocus : MonoBehaviour, IPointerDownHandler
     private void Awake()
     {
         controls = GetComponent<WindowControls>();
+        if (controls == null)
+        {
+            controls = GetComponentInParent<WindowControls>();
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
