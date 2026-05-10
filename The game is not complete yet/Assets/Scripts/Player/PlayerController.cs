@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     public float MoveSpeed => moveSpeed;
     public float JumpForce => jumpForce;
     public bool IsGrounded => isGrounded;
+    public Rigidbody Rb => rb;
 
     private void Awake()
     {
@@ -78,10 +79,20 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector3 move = (transform.right * moveInput.x + transform.forward * moveInput.y)
-                       * moveSpeed * Time.fixedDeltaTime;
+        // Convert input to world-space movement direction
+        Vector3 moveDir = (transform.right * moveInput.x + transform.forward * moveInput.y).normalized;
 
-        rb.MovePosition(rb.position + move);
+        // Keep existing vertical velocity (gravity, jumping)
+        Vector3 currentVel = rb.linearVelocity;
+
+        // Replace horizontal velocity with our movement
+        Vector3 targetVel = new Vector3(
+            moveDir.x * moveSpeed,
+            currentVel.y,
+            moveDir.z * moveSpeed
+        );
+
+        rb.linearVelocity = targetVel;
     }
 
     private void HandleWalkAudio()
