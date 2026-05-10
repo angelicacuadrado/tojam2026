@@ -370,6 +370,7 @@ GameObject:
   - component: {fileID: 5948886940383945572}
   - component: {fileID: 6665217665323448466}
   - component: {fileID: 650631222537204584}
+  - component: {fileID: 1191067356313885346}
   m_Layer: 5
   m_Name: WindowLevel3
   m_TagString: Untagged
@@ -472,6 +473,18 @@ MonoBehaviour:
   pausePanel: {fileID: 3422186400731575556}
   resumeButton: {fileID: 7474730995749319230}
   windowControls: {fileID: 0}
+--- !u!114 &1191067356313885346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3365668955944777570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8585536df9ccf6a4ebbec66f1782ffd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WindowFocus
 --- !u!1 &3422186400731575556
 GameObject:
   m_ObjectHideFlags: 0
