@@ -46,7 +46,7 @@ MonoBehaviour:
   - body: Anyway, I made one final build for you.
     delayAfterPrevious: 2
     buttonLabel: Game_v1.0_FINAL_reallyFinal.zip
-    windowPrefabToOpen: {fileID: 0}
+    windowPrefabToOpen: {fileID: 3365668955944777570, guid: 91af646f7f2d3304cbe00b93c4d9e772, type: 3}
   - body: This one should be perfect.
     delayAfterPrevious: 1
     buttonLabel: 
