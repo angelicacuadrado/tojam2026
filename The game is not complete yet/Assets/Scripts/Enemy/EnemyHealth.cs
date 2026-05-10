@@ -113,6 +113,8 @@ public class EnemyHealth : MonoBehaviour, IAttackable
         {
             grower.Grow(growthScaleMultiplier);
         }
+
+        RestoreAgentMovement();
     }
 
     private bool TryConsumeRespawn()
@@ -197,6 +199,11 @@ public class EnemyHealth : MonoBehaviour, IAttackable
     }
 
     public void OnRespawnAnimationComplete()
+    {
+        RestoreAgentMovement();
+    }
+
+    private void RestoreAgentMovement()
     {
         if (!TryGetComponent(out NavMeshAgent agent))
         {
