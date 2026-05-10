@@ -24,10 +24,10 @@ public class LevelHost : MonoBehaviour
     [Header("Refs (auto-wired if blank)")]
     [SerializeField] private WindowControls windowControls;
 
+    public bool _levelCompleted;
     private bool _paused;
     private bool _sceneLoaded;
     private bool _sceneLoading;
-    private bool _levelCompleted;
 
     private void Awake()
     {
@@ -167,6 +167,8 @@ public class LevelHost : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         _paused = false;
+
+        AudioManager.Instance?.PauseBGM();
 
         if (_sceneLoaded)
         {

@@ -131,9 +131,14 @@ public class Exit : MonoBehaviour
     {
         if (isOpen && other.CompareTag("Player"))
         {
-            Debug.Log("Level Completed!");
+            AudioManager.Instance?.PlaySFX("LevelWin");
+            LevelHost host = FindFirstObjectByType<LevelHost>();
+            if (host != null)
+            {
+                host._levelCompleted = true;
+                host.GetComponent<WindowControls>().Close();
+            }
 
-            ExitLevel.Invoke();
             AnyLevelCompleted?.Invoke(this);
         }
     }
