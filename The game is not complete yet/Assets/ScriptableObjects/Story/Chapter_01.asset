@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa7cb241c5a04ae19106c612d4c0d404, type: 3}
   m_Name: Chapter_01
   m_EditorClassIdentifier: Assembly-CSharp::MessageChapter
+  startTimeLabel: 8:27PM
   messages:
   - body: Hey!! Are you free for like five minutes?
     delayAfterPrevious: 2

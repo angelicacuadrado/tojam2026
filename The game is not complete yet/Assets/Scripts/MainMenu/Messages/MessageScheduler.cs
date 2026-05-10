@@ -11,6 +11,8 @@ public class MessageScheduler : MonoBehaviour
     [Tooltip("Seconds to wait after scene start before Chapter 1 begins delivering.")]
     [SerializeField] private float startupDelay = 2f;
     [SerializeField] private bool autoStart = true;
+    
+    [SerializeField] private CallWindow callWindow;
 
     [Tooltip("Sound name in AudioManager's database to play when a new message arrives.")]
     [SerializeField] private string notificationSfxName = "newmessage";
@@ -22,11 +24,28 @@ public class MessageScheduler : MonoBehaviour
     public bool SuppressNotificationSound { get; set; }
 
     public event Action<MessageEntry> MessageDelivered;
+    public event Action<string> TimeMarkerDelivered;
     public event Action<int> ChapterStarted;
     public event Action<int> ChapterCompleted;
 
+    public enum FeedItemKind { Message, TimeMarker }
+
+    [Serializable]
+    public struct FeedItem
+    {
+        public FeedItemKind Kind;
+        public MessageEntry Message;
+        public string TimeLabel;
+    }
+
     private readonly List<MessageEntry> delivered = new();
+    private readonly List<FeedItem> deliveredItems = new();
+
+    /// <summary>Messages-only history (in delivery order). Use <see cref="DeliveredItems"/> when you need time markers too.</summary>
     public IReadOnlyList<MessageEntry> Delivered => delivered;
+
+    /// <summary>Full ordered feed including chapter time markers — use this when rebuilding the chat view from scratch.</summary>
+    public IReadOnlyList<FeedItem> DeliveredItems => deliveredItems;
 
     public int CurrentChapterIndex => currentChapterIndex;
     public bool IsPlayingChapter => playingChapter;
@@ -34,7 +53,11 @@ public class MessageScheduler : MonoBehaviour
     private int currentChapterIndex = -1;
     private bool playingChapter;
     private bool startupDone;
+    private bool advanceQueued;
     private Coroutine runner;
+
+    /// <summary>Optional CallWindow used by LevelHost to play the incoming/ending UI around level runs.</summary>
+    public CallWindow CallWindow => callWindow;
 
     private void Awake()
     {
@@ -71,7 +94,14 @@ public class MessageScheduler : MonoBehaviour
             StartCoroutine(WaitThenAdvance());
             return;
         }
-        if (playingChapter || story == null || story.chapters == null) return;
+        if (playingChapter)
+        {
+            // Level completed before current chapter finished delivering — queue the
+            // advance so it runs as soon as PlayChapter wraps up.
+            advanceQueued = true;
+            return;
+        }
+        if (story == null || story.chapters == null) return;
 
         int next = currentChapterIndex + 1;
         if (next >= story.chapters.Count) return;
@@ -91,17 +121,27 @@ public class MessageScheduler : MonoBehaviour
         playingChapter = true;
         ChapterStarted?.Invoke(index);
 
-        if (chapter != null && chapter.messages != null)
+        if (chapter != null)
         {
-            foreach (var entry in chapter.messages)
+            if (!string.IsNullOrEmpty(chapter.startTimeLabel))
             {
-                if (entry == null) continue;
-                if (entry.delayAfterPrevious > 0f) yield return new WaitForSecondsRealtime(entry.delayAfterPrevious);
-                delivered.Add(entry);
-                MessageDelivered?.Invoke(entry);
-                if (!SuppressNotificationSound && AudioManager.Instance != null && !string.IsNullOrEmpty(notificationSfxName))
+                deliveredItems.Add(new FeedItem { Kind = FeedItemKind.TimeMarker, TimeLabel = chapter.startTimeLabel });
+                TimeMarkerDelivered?.Invoke(chapter.startTimeLabel);
+            }
+
+            if (chapter.messages != null)
+            {
+                foreach (var entry in chapter.messages)
                 {
-                    AudioManager.Instance.PlaySFX(notificationSfxName);
+                    if (entry == null) continue;
+                    if (entry.delayAfterPrevious > 0f) yield return new WaitForSecondsRealtime(entry.delayAfterPrevious);
+                    delivered.Add(entry);
+                    deliveredItems.Add(new FeedItem { Kind = FeedItemKind.Message, Message = entry });
+                    MessageDelivered?.Invoke(entry);
+                    if (!SuppressNotificationSound && AudioManager.Instance != null && !string.IsNullOrEmpty(notificationSfxName))
+                    {
+                        AudioManager.Instance.PlaySFX(notificationSfxName);
+                    }
                 }
             }
         }
@@ -109,5 +149,11 @@ public class MessageScheduler : MonoBehaviour
         playingChapter = false;
         runner = null;
         ChapterCompleted?.Invoke(index);
+
+        if (advanceQueued)
+        {
+            advanceQueued = false;
+            AdvanceToNextChapter();
+        }
     }
 }
