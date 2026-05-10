@@ -551,7 +551,7 @@ MonoBehaviour:
   - name: Shutdown
     clip: {fileID: 8300000, guid: 3f245452dd7e1df4280d50690ea214a3, type: 3}
   - name: NewMessage
-    clip: {fileID: 8300000, guid: 06c756b112f52f348b1801f1ae550d0b, type: 3}
+    clip: {fileID: 8300000, guid: 379fcca5b9c22f24d84532198f129df6, type: 3}
   - name: PlayerJump
     clip: {fileID: 8300000, guid: 0ee9e1371bf3c2143aba2b4c530ba881, type: 3}
   - name: PlayerDamage
