@@ -1030,3 +1030,93 @@ dotnet build "The game is not complete yet.sln" --no-restore
 - 构建通过。
 - 当前仍存在既有 warning：
   - `EnemyGrower.state` 字段已赋值但未使用。
+
+## 2026-05-10 计划：玩家 HP 心心 GUI
+
+### 目标
+
+- 在游戏 HUD 上显示玩家 HP。
+- 玩家最大 HP 默认为 3，对应 3 个心心图片。
+- 每损失 1 点 HP，就隐藏 1 个心心。
+- 复活或恢复满血时，重新显示全部心心。
+
+### 参考现状
+
+- 参考脚本：`Assets/Scripts/Player/PlayerHealth.cs`
+- 当前 `PlayerHealth` 行为：
+  - `maxHealth` 默认为 3。
+  - `Start()` 中把 `currentHealth` 设置为 `maxHealth`。
+  - `TakeDamage(int damage, Vector3 direction)` 中扣除 `currentHealth`。
+  - `Respawn()` 中把 `currentHealth` 重置为 `maxHealth`。
+- 当前问题：
+  - `currentHealth` 和 `maxHealth` 是 private 字段，UI 不能直接安全读取。
+  - 血量变化时没有事件或回调通知 UI。
+  - 如果 UI 用 `Update()` 每帧轮询也能做，但不够干净，后续维护不方便。
+
+### 实现方案
+
+- 新增玩家血量 UI 脚本：
+  - 建议路径：`Assets/Scripts/Player/PlayerHealthUI.cs`
+  - 使用 `UnityEngine.UI.Image[] hearts` 保存 3 个心心图片。
+  - `hearts[0]` 对应第 1 点 HP，`hearts[1]` 对应第 2 点 HP，`hearts[2]` 对应第 3 点 HP。
+  - 刷新规则：
+    - `i < currentHealth` 时显示心心。
+    - `i >= currentHealth` 时隐藏心心。
+- 修改 `PlayerHealth.cs`：
+  - 暴露只读属性：
+
+```csharp
+public int CurrentHealth => currentHealth;
+public int MaxHealth => maxHealth;
+```
+
+  - 新增血量变化事件：
+
+```csharp
+public event System.Action<int, int> HealthChanged;
+```
+
+  - 在以下位置触发 UI 刷新：
+    - `Start()` 初始化血量后触发一次。
+    - `TakeDamage()` 扣血后触发一次。
+    - `Respawn()` 重置血量后触发一次。
+- `PlayerHealthUI.cs` 负责：
+  - 通过 Inspector 绑定 `PlayerHealth`。
+  - 在 `OnEnable()` 订阅 `HealthChanged`。
+  - 在 `OnDisable()` 取消订阅，避免对象销毁后残留回调。
+  - 启用时立即读取当前血量刷新一次，避免 UI 初始状态为空。
+
+### 场景配置
+
+- 在 Level 场景中新增或复用一个 Canvas 作为游戏 HUD。
+- 在 Canvas 左上角创建一个容器，例如 `HealthBar`。
+- 在 `HealthBar` 下放 3 个 `Image` 子物体：
+  - `Heart_1`
+  - `Heart_2`
+  - `Heart_3`
+- 给 3 个 `Image` 使用同一张心心 Sprite。
+- 把 3 个 `Image` 按顺序拖到 `PlayerHealthUI.hearts` 数组。
+- 把玩家物体上的 `PlayerHealth` 拖到 `PlayerHealthUI.playerHealth`。
+
+### 注意事项
+
+- 如果后续 `maxHealth` 不是 3，`PlayerHealthUI` 可以继续工作：
+  - `hearts` 数组长度决定最多显示多少颗心。
+  - 当前计划先按 3 颗心配置。
+- 隐藏心心建议使用 `heart.enabled = false`，这样 UI 布局位置保持不变。
+- `TakeDamage()` 当前在死亡时不会设置无敌时间，短时间连续受击可能继续扣血；这不是本次 GUI 的重点，但测试时需要注意。
+- `TakeDamage()` 中 `rb.AddForce(...)` 没有判空保护；这也不是本次 GUI 的重点，但如果玩家没有 Rigidbody，会影响受伤流程。
+
+### 验证计划
+
+- 进入关卡后确认默认显示 3 个心心。
+- 让敌人攻击玩家 1 次，确认隐藏 1 个心心，剩 2 个。
+- 再受击到 1 HP，确认只剩 1 个心心。
+- HP 归零后等待复活，确认 3 个心心重新显示。
+- 运行：
+
+```powershell
+dotnet build "The game is not complete yet.sln" --no-restore
+```
+
+- 确认 C# 编译通过。

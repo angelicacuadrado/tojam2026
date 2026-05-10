@@ -23,9 +23,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField, Tooltip("Respawn point for the player")]
     private Transform respawnPoint;
 
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
+
+    public event System.Action<int, int> HealthChanged;
+
     private void Start()
     {
-        currentHealth = maxHealth;
+        SetCurrentHealth(maxHealth);
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -44,9 +49,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage, Vector3 direction)
     {
+        if (damage <= 0) return;
         if (invincibilityTimer > 0) return;
 
-        currentHealth -= damage;
+        SetCurrentHealth(currentHealth - damage);
         if (currentHealth <= 0)
         {
             if (AudioManager.Instance != null)
@@ -69,9 +75,15 @@ public class PlayerHealth : MonoBehaviour
 
     private void Respawn()
     {
-        currentHealth = maxHealth;
+        SetCurrentHealth(maxHealth);
         transform.position = respawnPoint.position;
         AudioManager.Instance.PlaySFX("PlayerRespawn");
         rb.linearVelocity = Vector3.zero; // Reset velocity on respawn
+    }
+
+    private void SetCurrentHealth(int value)
+    {
+        currentHealth = Mathf.Clamp(value, 0, maxHealth);
+        HealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }
