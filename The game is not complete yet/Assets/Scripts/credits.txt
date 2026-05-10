@@ -13,18 +13,17 @@ Shane Duffney – Level Design
 Special Thanks
 TOJam organizers and volunteers
 Our floaters:
-Omar M. N. – 3D Graphics Support
-James Ronald – Audio Support
+Omar – 3D Graphics Support
+James Ronald – Audio Support / Voice of Alex
 
 Tools Used
 Unity
 Blender / Photoshop 
 Visual Studio / Rider
-GitHub
+GitHub / Google Drive
 
-Assets and Audio
-[Asset name] by [Creator] – [License / Source]
-[Music or SFX name] by [Creator] – [License / Source]
+Assets
+POLYGON - Prototype Pack by Synty – https://assetstore.unity.com/packages/3d/environments/polygon-prototype-pack-art-by-synty-137126
 Comic Neue by Google Fonts – This Font Software is licensed under the SIL Open Font License, Version 1.1
 
 No bugs were harmed during development.
