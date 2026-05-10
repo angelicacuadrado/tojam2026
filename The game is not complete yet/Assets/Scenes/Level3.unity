@@ -615,6 +615,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2119085899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &595276827 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5668408976923972089, guid: aefe6058948c84643b1391c00eeeaaa1, type: 3}
+  m_PrefabInstance: {fileID: 792239287}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &760363044
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,6 +767,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 305479704453592823, guid: aefe6058948c84643b1391c00eeeaaa1, type: 3}
+      propertyPath: doorAnimator
+      value: 
+      objectReference: {fileID: 595276827}
+    - target: {fileID: 305479704453592823, guid: aefe6058948c84643b1391c00eeeaaa1, type: 3}
       propertyPath: exitCollider
       value: 
       objectReference: {fileID: 1788873041}
@@ -809,7 +818,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Exit
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9209366499825899877, guid: aefe6058948c84643b1391c00eeeaaa1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -970,6 +980,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4038534500450458326, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038534500450458326, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038534500450458326, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038534500450458326, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4849064960922170369, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4849064960922170369, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4849064960922170369, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4849064960922170369, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7344608348184929531, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
       propertyPath: playerHealth
       value: 
@@ -986,6 +1028,22 @@ PrefabInstance:
       propertyPath: 'hearts.Array.data[2]'
       value: 
       objectReference: {fileID: 1063297675}
+    - target: {fileID: 8856414559917237860, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856414559917237860, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856414559917237860, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856414559917237860, guid: d53ba384ec547fd4aab1aa200eb951cb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

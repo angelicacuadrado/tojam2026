@@ -17,7 +17,7 @@ public partial class EnemyAttacker : MonoBehaviour
     private PlayerHealth playerHealth;
     private EnemyState state = EnemyState.Chase;
     private float nextAttackTime;
-    private Animator animator => GetComponentInChildren<Animator>();
+    private Animator animator => GetComponent<Animator>();
 
     private void Awake()
     {
@@ -29,6 +29,9 @@ public partial class EnemyAttacker : MonoBehaviour
 
     private void Update()
     {
+        if (player == null)
+            return;
+
         float playerDistance = Vector3.Distance(transform.position, player.position);
 
         if (playerDistance <= attackRange) { state = EnemyState.Attack; }
@@ -74,31 +77,54 @@ public partial class EnemyAttacker : MonoBehaviour
     {
         if (CanUseAgent()) agent.isStopped = true;
 
-        if (Time.time < nextAttackTime || player.gameObject == null)
+        if (Time.time < nextAttackTime || player == null)
             return;
+
+        PlayAttackAnimation();
+
+        if (playerHealth == null)
+        {
+            playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth == null)
+            {
+                Debug.LogWarning($"{nameof(EnemyAttacker)} on {name} cannot attack because the player has no PlayerHealth.", this);
+                nextAttackTime = Time.time + attackCooldown;
+                return;
+            }
+        }
 
         Vector3 knockback = BuildKnockbackVector(player.position);
         playerHealth.TakeDamage(damagePerAttack, knockback);
         AudioManager.Instance?.PlaySFX("EnemyLaugh2");
         nextAttackTime = Time.time + attackCooldown;
+    }
 
+    private void PlayAttackAnimation()
+    {
         if (animator != null)
         {
-            if (animator.name == "Zombie Cartoon_01")
+            if (animator.name.StartsWith("Enemy"))
             {
                 animator.SetTrigger("attack");
+                Debug.Log($"{name} is attacking the player.");
             }
-            else if (animator.name == "Skeleton_110")
+            else if (animator.name.StartsWith("RespawnEnemy"))
             {
                 switch (Random.Range(0f, 1f))
                 {
                     case float n when (n < 0.5f):
                         animator.SetTrigger("attack1");
+                        Debug.Log($"{name} is attacking the player with attack1.");
                         break;
                     default:
                         animator.SetTrigger("attack2");
+                        Debug.Log($"{name} is attacking the player with attack2.");
                         break;
                 }
+            }
+            else
+            {
+                Debug.LogWarning($"{nameof(EnemyAttacker)} on {name} found Animator named {animator.name}, but no attack trigger is configured for it.", this);
             }
 
         }

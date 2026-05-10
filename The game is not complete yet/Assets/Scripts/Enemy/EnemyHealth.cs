@@ -15,7 +15,11 @@ public class EnemyHealth : MonoBehaviour, IAttackable
 
     private Vector3 lastDeathPosition;
     private int respawnsRemaining;
-    private Animator animator => GetComponentInChildren<Animator>();
+    private bool pendingRespawn;
+    private bool pendingGrowAfterRespawn;
+    private bool hasStoredAgentSpeed;
+    private float storedAgentSpeed;
+    private Animator animator => GetComponent<Animator>();
 
     //Properties
     public int CurrentHP => currentHP;
@@ -34,14 +38,14 @@ public class EnemyHealth : MonoBehaviour, IAttackable
 
         currentHP = Mathf.Max(0, currentHP - amount);
 
-        animator?.SetTrigger("hit");
-
         if (currentHP == 0)
         {
             HandleZeroHP();
         }
         else
         {
+            animator?.SetTrigger("hit");
+
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.Play3DSFX("EnemyDamage", transform.position);
@@ -74,16 +78,10 @@ public class EnemyHealth : MonoBehaviour, IAttackable
 
     private void Die()
     {
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.Play3DSFX("EnemyDie", transform.position);
-        }
-
-        if (animator == null)
-            return;
-
-        animator.applyRootMotion = true;
-        animator.SetTrigger("die");
+        pendingRespawn = false;
+        pendingGrowAfterRespawn = false;
+        StopAgentForDeath();
+        PlayDeathAnimation();
     }
 
     private void Respawn()
@@ -94,11 +92,10 @@ public class EnemyHealth : MonoBehaviour, IAttackable
             return;
         }
 
-        lastDeathPosition = transform.position;
-        ResetHealth();
-        MoveToRespawnPosition();
-
-        animator?.SetTrigger("rebrith");
+        pendingRespawn = true;
+        pendingGrowAfterRespawn = false;
+        StopAgentForDeath();
+        PlayDeathAnimation();
     }
 
     private void RespawnAndGrow()
@@ -109,13 +106,10 @@ public class EnemyHealth : MonoBehaviour, IAttackable
             return;
         }
 
-        lastDeathPosition = transform.position;
-        ResetHealth();
-        MoveToRespawnPosition();
-
-        EnemyGrower grower = GetComponent<EnemyGrower>();
-        if (grower != null)
-            grower.Grow(growthScaleMultiplier);
+        pendingRespawn = true;
+        pendingGrowAfterRespawn = true;
+        StopAgentForDeath();
+        PlayDeathAnimation();
     }
 
     private bool TryConsumeRespawn()
@@ -141,10 +135,105 @@ public class EnemyHealth : MonoBehaviour, IAttackable
         transform.position = lastDeathPosition;
     }
 
+    private void PlayDeathAnimation()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.Play3DSFX("EnemyDie", transform.position);
+        }
+
+        if (animator == null)
+        {
+            OnDeathAnimationComplete();
+            return;
+        }
+
+        animator.applyRootMotion = true;
+        animator.ResetTrigger("hit");
+        animator.SetTrigger("die");
+    }
+
+    private void CompleteRespawn()
+    {
+        lastDeathPosition = transform.position;
+        ResetHealth();
+        MoveToRespawnPosition();
+
+        if (pendingGrowAfterRespawn)
+        {
+            EnemyGrower grower = GetComponent<EnemyGrower>();
+            if (grower != null)
+            {
+                grower.Grow(growthScaleMultiplier);
+            }
+        }
+
+        pendingRespawn = false;
+        pendingGrowAfterRespawn = false;
+
+        if (animator != null)
+        {
+            animator.applyRootMotion = false;
+            animator.SetTrigger("rebrith");
+        }
+        else
+        {
+            OnRespawnAnimationComplete();
+        }
+    }
+
+    private void StopAgentForDeath()
+    {
+        if (!TryGetComponent(out NavMeshAgent agent))
+        {
+            return;
+        }
+
+        if (!hasStoredAgentSpeed)
+        {
+            storedAgentSpeed = agent.speed;
+            hasStoredAgentSpeed = true;
+        }
+
+        agent.speed = 0f;
+        if (agent.enabled && agent.isOnNavMesh)
+        {
+            agent.velocity = Vector3.zero;
+            agent.isStopped = true;
+        }
+    }
+
+    public void OnRespawnAnimationComplete()
+    {
+        if (!TryGetComponent(out NavMeshAgent agent))
+        {
+            return;
+        }
+
+        if (hasStoredAgentSpeed)
+        {
+            agent.speed = storedAgentSpeed;
+        }
+
+        if (agent.enabled && agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+        }
+    }
+
     public void OnDeathAnimationComplete()
     {
+        if (pendingRespawn)
+        {
+            CompleteRespawn();
+            return;
+        }
+
         if (useDestroyOnDie)
+        {
             Destroy(gameObject);
+            return;
+        }
 
         gameObject.SetActive(false);
     }
