@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6082e22049945faab47f2487ad5099e, type: 3}
+  m_Name: Story_test
+  m_EditorClassIdentifier: Assembly-CSharp::MessageStory
+  chapters:
+  - {fileID: 11400000, guid: 647fee5536265eb43838c1d55cbc3fc3, type: 2}

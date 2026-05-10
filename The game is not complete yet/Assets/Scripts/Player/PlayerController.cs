@@ -7,10 +7,12 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
     private float footstepInterval = 0.5f;
+    private Vector3 platformVelocity;
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float groundCheckDistance = 0.1f;
+    [SerializeField] private LayerMask groundLayer = ~0;
     private bool isGrounded;
     private float footstepTimer;
 
@@ -43,12 +45,12 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         HandleLook();
-        HandleGroundCheck();
         HandleWalkAudio();
     }
 
     private void FixedUpdate()
     {
+        HandleGroundAndPlatformCheck();
         HandleMovement();
         HandleJump();
     }
@@ -87,9 +89,9 @@ public class PlayerController : MonoBehaviour
 
         // Replace horizontal velocity with our movement
         Vector3 targetVel = new Vector3(
-            moveDir.x * moveSpeed,
+            moveDir.x * moveSpeed + platformVelocity.x,
             currentVel.y,
-            moveDir.z * moveSpeed
+            moveDir.z * moveSpeed + platformVelocity.z
         );
 
         rb.linearVelocity = targetVel;
@@ -128,9 +130,22 @@ public class PlayerController : MonoBehaviour
     // JUMP
     // -----------------------------
 
-    private void HandleGroundCheck()
+    private void HandleGroundAndPlatformCheck()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
+        platformVelocity = Vector3.zero;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer))
+        {
+            isGrounded = true;
+
+            var platform = hit.collider.GetComponent<WalkablePlatform>();
+            if (platform != null)
+                platformVelocity = platform.Veclocity;
+        }
+        else
+        {
+            isGrounded = false;
+        }
     }
 
     private void HandleJump()
