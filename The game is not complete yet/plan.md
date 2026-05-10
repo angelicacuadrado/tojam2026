@@ -1120,3 +1120,140 @@ dotnet build "The game is not complete yet.sln" --no-restore
 ```
 
 - 确认 C# 编译通过。
+
+## 2026-05-10 追加进度：玩家 HP GUI 与敌人动画流程
+
+### 玩家 HP GUI 已实现
+
+- 修改 `Assets/Scripts/Player/PlayerHealth.cs`：
+  - 新增只读属性：
+
+```csharp
+public int CurrentHealth => currentHealth;
+public int MaxHealth => maxHealth;
+```
+
+  - 新增血量变化事件：
+
+```csharp
+public event System.Action<int, int> HealthChanged;
+```
+
+  - 新增 `SetCurrentHealth(int value)`，统一 clamp 血量并触发 `HealthChanged`。
+  - `Start()` 初始化血量后会通知 UI。
+  - `TakeDamage()` 扣血后会通知 UI。
+  - `Respawn()` 恢复满血后会通知 UI。
+- 新增 `Assets/Scripts/Player/PlayerHealthUI.cs`：
+  - 使用 `Image[] hearts = new Image[3]` 保存三个心心 UI。
+  - `Refresh(currentHealth, maxHealth)` 中按当前 HP 控制心心 `Image.enabled`。
+  - 支持 Inspector 手动绑定 `PlayerHealth`。
+  - 如果未绑定，会用 `FindFirstObjectByType<PlayerHealth>()` 自动查找。
+  - `OnEnable()` 订阅 `HealthChanged`，`OnDisable()` 取消订阅。
+- 场景配置方式：
+  - 在 HUD Canvas 下创建 `HealthBar`。
+  - 放三个心心 `Image`：`Heart_1`、`Heart_2`、`Heart_3`。
+  - 把三个 Image 按顺序拖入 `PlayerHealthUI.hearts`。
+  - 把玩家的 `PlayerHealth` 拖入 `PlayerHealthUI.playerHealth`。
+
+### 敌人死亡到重生流程调整
+
+- 修改 `Assets/Scripts/Enemy/EnemyHealth.cs`。
+- 保留原有 `Respawn()` 方法名，但职责改变：
+  - 现在 `Respawn()` 不再立刻回血、移动、触发重生。
+  - 现在它只负责消耗重生次数、设置待重生状态，然后播放死亡动画。
+- 新增内部状态：
+
+```csharp
+private bool pendingRespawn;
+private bool pendingGrowAfterRespawn;
+```
+
+- 死亡动画最后一帧仍然调用现有事件：
+
+```csharp
+public void OnDeathAnimationComplete()
+```
+
+- `OnDeathAnimationComplete()` 现在根据 `pendingRespawn` 判断后续行为：
+  - `pendingRespawn == true`：调用 `CompleteRespawn()`。
+  - `pendingRespawn == false`：按普通死亡逻辑 `Destroy(gameObject)` 或 `SetActive(false)`。
+- 新增 `CompleteRespawn()`，接管原来 `Respawn()` 里立刻执行的逻辑：
+
+```csharp
+lastDeathPosition = transform.position;
+ResetHealth();
+MoveToRespawnPosition();
+```
+
+  - 如果是 `RespawnAndGrow`，会在这里调用 `EnemyGrower.Grow(growthScaleMultiplier)`。
+  - 然后触发重生动画 trigger：
+
+```csharp
+animator.SetTrigger("rebrith");
+```
+
+### 敌人死亡/重生期间 NavMeshAgent 速度控制
+
+- 新增死亡流程开始时的速度处理：
+  - `Die()`、`Respawn()`、`RespawnAndGrow()` 都会调用 `StopAgentForDeath()`。
+- `StopAgentForDeath()` 行为：
+  - 保存当前 `NavMeshAgent.speed`。
+  - 把 `agent.speed` 设置为 `0`。
+  - 如果 agent 已启用且在 NavMesh 上，清空 `agent.velocity` 并设置 `agent.isStopped = true`。
+- 新增重生动画结束事件：
+
+```csharp
+public void OnRespawnAnimationComplete()
+```
+
+- Unity 配置要求：
+  - 死亡动画最后一帧继续调用 `OnDeathAnimationComplete`。
+  - 重生动画最后一帧新增 Animation Event，调用 `OnRespawnAnimationComplete`。
+- `OnRespawnAnimationComplete()` 行为：
+  - 恢复死亡前保存的 `NavMeshAgent.speed`。
+  - 如果 agent 已启用且在 NavMesh 上，设置 `agent.isStopped = false`。
+
+### 敌人攻击动画排查与调整
+
+- 问题现象：
+  - 敌人攻击玩家时，玩家会受伤，但攻击动画没有触发。
+  - 用户加在攻击动画触发处的 `Debug.Log` 也没有打印。
+- 发现的问题：
+  - 之前攻击动画触发写在 `playerHealth.TakeDamage(...)` 后面。
+  - 如果玩家受伤流程中断或 `playerHealth` 未配置，后面的动画触发和 Debug 都不会执行。
+  - 运行时实例名通常是 `Enemy(Clone)` / `RespawnEnemy(Clone)`，精确判断 `animator.name == "Enemy"` 或 `== "RespawnEnemy"` 不稳定。
+- 修改 `Assets/Scripts/Enemy/EnemyAttacker.cs`：
+  - `Update()` 中如果 `player == null`，直接 return，避免空引用。
+  - `HandleAttack()` 中先调用 `PlayAttackAnimation()`，再处理玩家伤害。
+  - 如果 `playerHealth == null`，攻击时尝试重新从玩家身上获取。
+  - 如果仍然找不到 `PlayerHealth`，输出 warning 并进入冷却。
+  - 攻击动画名称判断改为：
+
+```csharp
+animator.name.StartsWith("Enemy")
+animator.name.StartsWith("RespawnEnemy")
+```
+
+  - 如果不匹配，会输出 warning，提示当前拿到的 Animator 名字。
+
+### 当前仍需 Unity 场景/动画配置
+
+- `RespawnEnemy` 的死亡动画最后一帧需要确认已有 `OnDeathAnimationComplete`。
+- `RespawnEnemy` 的重生动画最后一帧需要新增 `OnRespawnAnimationComplete`。
+- 如果攻击动画仍不播放，下一步应在 Play Mode 查看 warning 中打印出的 Animator 名字，并确认：
+  - `Enemy` Animator Controller 中有 `attack` trigger。
+  - `RespawnEnemy` Animator Controller 中有 `attack1` 和 `attack2` trigger。
+  - 敌人实际使用的是挂在根物体上的 Animator，或者脚本的 `GetComponent<Animator>()` 能拿到正确 Animator。
+
+### 验证
+
+- 已运行：
+
+```powershell
+dotnet build "The game is not complete yet.sln" --no-restore
+```
+
+- 构建通过。
+- 当前仍存在既有 warning：
+  - `EnemyGrower.state` 字段已赋值但未使用。
+  - `CallWindow.incomingSfxName` 字段已赋值但未使用。
