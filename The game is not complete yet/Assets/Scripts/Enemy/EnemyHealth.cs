@@ -16,7 +16,6 @@ public class EnemyHealth : MonoBehaviour, IAttackable
     private Vector3 lastDeathPosition;
     private int respawnsRemaining;
     private bool pendingRespawn;
-    private bool pendingGrowAfterRespawn;
     private bool hasStoredAgentSpeed;
     private float storedAgentSpeed;
     private Animator animator => GetComponent<Animator>();
@@ -79,7 +78,6 @@ public class EnemyHealth : MonoBehaviour, IAttackable
     private void Die()
     {
         pendingRespawn = false;
-        pendingGrowAfterRespawn = false;
         StopAgentForDeath();
         PlayDeathAnimation();
     }
@@ -93,7 +91,6 @@ public class EnemyHealth : MonoBehaviour, IAttackable
         }
 
         pendingRespawn = true;
-        pendingGrowAfterRespawn = false;
         StopAgentForDeath();
         PlayDeathAnimation();
     }
@@ -106,10 +103,16 @@ public class EnemyHealth : MonoBehaviour, IAttackable
             return;
         }
 
-        pendingRespawn = true;
-        pendingGrowAfterRespawn = true;
-        StopAgentForDeath();
-        PlayDeathAnimation();
+        pendingRespawn = false;
+        lastDeathPosition = transform.position;
+        ResetHealth();
+        MoveToRespawnPosition();
+
+        EnemyGrower grower = GetComponent<EnemyGrower>();
+        if (grower != null)
+        {
+            grower.Grow(growthScaleMultiplier);
+        }
     }
 
     private bool TryConsumeRespawn()
@@ -159,17 +162,7 @@ public class EnemyHealth : MonoBehaviour, IAttackable
         ResetHealth();
         MoveToRespawnPosition();
 
-        if (pendingGrowAfterRespawn)
-        {
-            EnemyGrower grower = GetComponent<EnemyGrower>();
-            if (grower != null)
-            {
-                grower.Grow(growthScaleMultiplier);
-            }
-        }
-
         pendingRespawn = false;
-        pendingGrowAfterRespawn = false;
 
         if (animator != null)
         {

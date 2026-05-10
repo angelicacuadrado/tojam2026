@@ -24,6 +24,7 @@ public class Key : MonoBehaviour, IPoolable
     [SerializeField, Tooltip("Frequency of the bobbing effect")]
     private float bobbingFrequency = 1f;
     private Vector3 initialPosition;
+    private bool isCollected = false;
 
     // Properties for IPoolable interface
     public string PoolKey { get => poolKey; set => poolKey = value; }
@@ -43,17 +44,20 @@ public class Key : MonoBehaviour, IPoolable
 
     public void OnTriggerEnter(Collider other)
     {
+        if (isCollected) return;
+
         foreach (string tagToCheck in tagsToCheck)
         {
             if (other.CompareTag(tagToCheck))
             {
+                isCollected = true;
                 GameManager.Instance.AddKey();
-                poolOwner.ReturnToPool(gameObject, poolKey);
-            }
 
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.Play3DSFX("KeyPickup", transform.position);
+                AudioManager.Instance?.Play3DSFX("KeyPickup", transform.position);
+                NarratorController.Instance?.PlayLine("Level1_3");
+                poolOwner.ReturnToPool(gameObject, poolKey);
+
+                break;
             }
         }
     }

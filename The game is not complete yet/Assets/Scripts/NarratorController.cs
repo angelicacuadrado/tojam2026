@@ -12,7 +12,6 @@ public class NarratorController : MonoBehaviour
         public string id;
         public float delayBeforePlaying;
         public AudioClip clip;
-        [TextArea(2, 4)] public string subtitle;
     }
 
     [Header("Level Intro Sequence")]
@@ -59,9 +58,6 @@ public class NarratorController : MonoBehaviour
 
         if (AudioManager.Instance != null && line.clip != null)
             AudioManager.Instance.PlayVoice(line.clip);
-
-        if (!string.IsNullOrEmpty(line.subtitle))
-            Debug.Log($"Narrator Subtitle: {line.subtitle}"); // Link to UI later
     }
 
     private IEnumerator PlaySequence(VoiceLine[] sequence)
