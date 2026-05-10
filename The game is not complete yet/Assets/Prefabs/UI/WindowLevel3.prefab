@@ -476,6 +476,7 @@ MonoBehaviour:
   pausePanel: {fileID: 3422186400731575556}
   resumeButton: {fileID: 7474730995749319230}
   windowControls: {fileID: 0}
+  _levelCompleted: 0
 --- !u!114 &1191067356313885346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,6 +579,7 @@ GameObject:
   - component: {fileID: 7937445828417257728}
   - component: {fileID: 1075031549242723642}
   - component: {fileID: 6613162329804085728}
+  - component: {fileID: 7090515971507965823}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -683,6 +685,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95308d33b41c5b54da9a9748d5357d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragWindow
+--- !u!114 &7090515971507965823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4279463856653508927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8585536df9ccf6a4ebbec66f1782ffd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WindowFocus
 --- !u!1 &4848175262370215241
 GameObject:
   m_ObjectHideFlags: 0
