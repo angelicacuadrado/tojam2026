@@ -51,7 +51,7 @@ public class EnemyGrower : MonoBehaviour
 
             if (AudioManager.Instance != null)
             {
-                AudioManager.Instance.Play3DSFX("EnemyGrow", transform.position);
+                AudioManager.Instance.PlaySFX("EnemyGrow");
             }
             if (NarratorController.Instance != null && !isGrown)
             {
