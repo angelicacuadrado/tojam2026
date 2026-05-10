@@ -37,6 +37,7 @@ public class Exit : MonoBehaviour
     private float currentNormalizedTime;
     private float targetNormalizedTime;
     private bool isAnimatingDoor;
+    public bool IsOpen => isOpen;
 
     private void Awake()
     {

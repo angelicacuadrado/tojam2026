@@ -29,6 +29,11 @@ public class EnemySpawnTrigger : MonoBehaviour
         if (!string.IsNullOrWhiteSpace(requiredTag) && !other.CompareTag(requiredTag))
             return;
 
+        if (NarratorController.Instance != null)
+        {
+            NarratorController.Instance.PlayLine("Level3_4");
+        }
+
         SpawnEnemies();
     }
 

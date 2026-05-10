@@ -79,9 +79,18 @@ public class PlayerHealth : MonoBehaviour
     {
         SetCurrentHealth(maxHealth);
         transform.position = respawnPoint.position;
-        //AudioManager.Instance.PlaySFX("PlayerRespawn");
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX("PlayerRespawn");
+        }
+   
         rb.linearVelocity = Vector3.zero; // Reset velocity on respawn
         OnPlayerRespawn.Invoke();
+
+        if (Exit.Instance.IsOpen == true)
+        {
+           NarratorController.Instance?.PlayLine("Level3_5");
+        }
     }
 
     private void SetCurrentHealth(int value)
