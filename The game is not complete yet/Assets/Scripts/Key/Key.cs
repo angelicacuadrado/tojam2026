@@ -8,11 +8,11 @@ using UnityEngine;
 public class Key : MonoBehaviour, IPoolable
 {
     [SerializeField, Tooltip("Tags of the objects that can collect this key")]
-    private string[] tagsToCheck;
+    protected string[] tagsToCheck;
     [SerializeField, Tooltip("Key used for object pooling")]
-    private string poolKey;
+    protected string poolKey;
     [SerializeField, Tooltip("Object pooler that owns this key")]
-    private ObjectPooler poolOwner;
+    protected ObjectPooler poolOwner;
 
     [Header("Animation Settings")]
     [SerializeField, Tooltip("Visual representation of the key")]
@@ -24,7 +24,7 @@ public class Key : MonoBehaviour, IPoolable
     [SerializeField, Tooltip("Frequency of the bobbing effect")]
     private float bobbingFrequency = 1f;
     private Vector3 initialPosition;
-    private bool isCollected = false;
+    protected bool isCollected = false;
 
     // Properties for IPoolable interface
     public string PoolKey { get => poolKey; set => poolKey = value; }
@@ -42,7 +42,7 @@ public class Key : MonoBehaviour, IPoolable
         visual.localPosition = localPos;
     }
 
-    public void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
         if (isCollected) return;
 

@@ -53,6 +53,10 @@ public class EnemyGrower : MonoBehaviour
             {
                 AudioManager.Instance.Play3DSFX("EnemyGrow", transform.position);
             }
+            if (NarratorController.Instance != null)
+            {
+                NarratorController.Instance.PlayLine("Level2_2");
+            }
         }
     }
 
