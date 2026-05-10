@@ -41,7 +41,7 @@ MonoBehaviour:
   - body: 'I just need you to collect some coins and reach the exit. '
     delayAfterPrevious: 2
     buttonLabel: Game_v0.1.exe
-    windowPrefabToOpen: {fileID: 3365668955944777570, guid: 96c04c59dde77a44f88c913418e30b6e, type: 3}
+    windowPrefabToOpen: {fileID: 3365668955944777570, guid: 70ffaaedbc6ac5b4281e8472788bf99a, type: 3}
   - body: Also ignore the file name. It says v0.1, but emotionally it is like v0.8.
     delayAfterPrevious: 2
     buttonLabel: 

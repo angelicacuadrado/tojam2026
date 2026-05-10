@@ -607,6 +607,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  indicatorRenderer: {fileID: 0}
+  releasedMat: {fileID: 0}
+  pressedMat: {fileID: 0}
   buttonVisual: {fileID: 451919612}
   pressedLocalOffset: {x: 0, y: -0.1, z: 0}
   visualMoveSpeed: 8
@@ -1301,6 +1304,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  indicatorRenderer: {fileID: 0}
+  releasedMat: {fileID: 0}
+  pressedMat: {fileID: 0}
   buttonVisual: {fileID: 1026008503}
   pressedLocalOffset: {x: 0, y: -0.1, z: 0}
   visualMoveSpeed: 8
@@ -2338,7 +2344,7 @@ PrefabInstance:
     - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
       propertyPath: startSequence.Array.data[1].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 00a3dd62010c79e46b1d86e36af43774, type: 3}
+      objectReference: {fileID: 8300000, guid: 8e4ab89c6c4c39445a1433d67e9dd832, type: 3}
     - target: {fileID: 896252760615686779, guid: dea38ce1b8f1e2b4f95b08104c5ac7b2, type: 3}
       propertyPath: eventLines.Array.data[0].delayBeforePlaying
       value: 0
