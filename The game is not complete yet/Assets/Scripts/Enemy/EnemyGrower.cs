@@ -11,7 +11,7 @@ public class EnemyGrower : MonoBehaviour
     [SerializeField] private float patrolDelay;
     private int currentPatrolIndex = 0;
     private NavMeshAgent agent;
-    private bool isGrown = false;
+    private static bool isGrown = false;
     private bool loggedMissingPatrolPoints;
 
 
