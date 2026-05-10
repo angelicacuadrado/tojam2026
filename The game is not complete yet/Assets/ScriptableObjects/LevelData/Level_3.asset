@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf0c5b1c08e1d8d41adb9075d9d59b02, type: 3}
   m_Name: Level_3
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  keysRequired: 0
-  enemiesRequired: 10
+  keysRequired: 1
+  enemiesRequired: 0

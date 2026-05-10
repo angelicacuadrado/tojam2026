@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.35355, y: 1.23, z: 0.35355}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4378533827948793118}
   m_Father: {fileID: 0}
@@ -70,7 +70,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 0
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttacker
   player: {fileID: 0}
-  attackRange: 1.5
+  attackRange: 5
   damagePerAttack: 1
   attackCooldown: 1
   knockbackForce: 6
@@ -115,7 +115,7 @@ MonoBehaviour:
   maxHP: 3
   currentHP: 0
   zeroHPBehavior: 1
-  respawnCount: 10
+  respawnCount: -1
   growthScaleMultiplier: 2
   useDestroyOnDie: 0
   keyPrefab: {fileID: 0}
