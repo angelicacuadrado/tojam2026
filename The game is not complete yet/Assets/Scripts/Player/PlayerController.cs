@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (NarratorController.Instance != null)
                 {
-                    NarratorController.Instance.PlayLine("Level1_issue1");
+                    NarratorController.Instance.PlayLine("Level1_2");
                 }
                 isWalking = true;
             }
@@ -100,7 +100,10 @@ public class PlayerController : MonoBehaviour
             footstepTimer += Time.deltaTime;
             if (footstepTimer >= footstepInterval)
             {
-                AudioManager.Instance.PlaySFX("PlayerWalk");
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlaySFX("PlayerWalk");
+                }
                 footstepTimer = 0f;
             }
         }
