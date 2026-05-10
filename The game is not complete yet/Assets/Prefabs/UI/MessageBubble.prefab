@@ -169,8 +169,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 83c35b0c32d9534409c6390478a0bf2d, type: 2}
-  m_sharedMaterial: {fileID: 2373050105203585977, guid: 83c35b0c32d9534409c6390478a0bf2d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
+  m_sharedMaterial: {fileID: 5307714136259391787, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -539,8 +539,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Game_v0.1.exe
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 83c35b0c32d9534409c6390478a0bf2d, type: 2}
-  m_sharedMaterial: {fileID: 2373050105203585977, guid: 83c35b0c32d9534409c6390478a0bf2d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
+  m_sharedMaterial: {fileID: 5307714136259391787, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
