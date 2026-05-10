@@ -103,30 +103,18 @@ public partial class EnemyAttacker : MonoBehaviour
     {
         if (animator != null)
         {
-            if (animator.name.StartsWith("Enemy"))
+           
+            switch (Random.Range(0f, 1f))
             {
-                animator.SetTrigger("attack");
-                Debug.Log($"{name} is attacking the player.");
+                case float n when (n < 0.5f):
+                    animator.SetTrigger("attack1");
+                    Debug.Log($"{name} is attacking the player with attack1.");
+                    break;
+                default:
+                    animator.SetTrigger("attack2");
+                    Debug.Log($"{name} is attacking the player with attack2.");
+                    break;
             }
-            else if (animator.name.StartsWith("RespawnEnemy"))
-            {
-                switch (Random.Range(0f, 1f))
-                {
-                    case float n when (n < 0.5f):
-                        animator.SetTrigger("attack1");
-                        Debug.Log($"{name} is attacking the player with attack1.");
-                        break;
-                    default:
-                        animator.SetTrigger("attack2");
-                        Debug.Log($"{name} is attacking the player with attack2.");
-                        break;
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"{nameof(EnemyAttacker)} on {name} found Animator named {animator.name}, but no attack trigger is configured for it.", this);
-            }
-
         }
     }
 
