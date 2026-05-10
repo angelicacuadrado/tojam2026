@@ -4,12 +4,11 @@ using UnityEngine.AI;
 public class EnemyGrower : MonoBehaviour
 {
     [Header("Patrol")]
-    [SerializeField] private float patrolPointReachDistance = 0.3f;
     [SerializeField] private Transform[] patrolPoints;
     private int currentPatrolIndex = 0;
-    private EnemyState state = EnemyState.Patrol;
     private NavMeshAgent agent;
     private bool isGrown = false;
+    private bool loggedMissingPatrolPoints;
 
 
     [Header("Growth")]
@@ -67,17 +66,42 @@ public class EnemyGrower : MonoBehaviour
         if (!CanUseAgent())
             return;
 
-        agent.isStopped = false;
+        if (!HasPatrolPoints())
+            return;
 
+        agent.isStopped = false;
         agent.SetDestination(patrolPoints[currentPatrolIndex].position);
-        // Check if we've reached the patrol point (considering only horizontal distance).
-        Vector3 patrolPoint = new Vector3(patrolPoints[currentPatrolIndex].position.x,
-            transform.position.y, patrolPoints[currentPatrolIndex].position.z);
-        // If we're within the reach distance of the patrol point, move to the next one.
-        if (Vector3.Distance(transform.position, patrolPoint) <= patrolPointReachDistance)
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!IsCurrentPatrolTrigger(other))
+            return;
+
+        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+    }
+
+    private bool HasPatrolPoints()
+    {
+        if (patrolPoints != null && patrolPoints.Length > 0 && patrolPoints[currentPatrolIndex] != null)
+            return true;
+
+        if (!loggedMissingPatrolPoints)
         {
-            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+            Debug.LogWarning($"{nameof(EnemyGrower)} on {name} needs patrol point trigger zones.", this);
+            loggedMissingPatrolPoints = true;
         }
+
+        return false;
+    }
+
+    private bool IsCurrentPatrolTrigger(Collider other)
+    {
+        if (other == null || !HasPatrolPoints())
+            return false;
+
+        Transform currentPatrolPoint = patrolPoints[currentPatrolIndex];
+        return other.transform == currentPatrolPoint || other.transform.IsChildOf(currentPatrolPoint);
     }
 
     private bool CanUseAgent()
@@ -92,7 +116,7 @@ public class EnemyGrower : MonoBehaviour
 
         else
         {
-            Debug.LogWarning($"{nameof(EnemyAttacker)} on {name} is not on a NavMesh.", this);
+            Debug.LogWarning($"{nameof(EnemyGrower)} on {name} is not on a NavMesh.", this);
         }
         return false;
     }

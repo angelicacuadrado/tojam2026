@@ -20,6 +20,8 @@ public class EnemyHealth : MonoBehaviour, IAttackable
     private float storedAgentSpeed;
     private Animator animator => GetComponent<Animator>();
 
+    [SerializeField] private GameObject keyPrefab;
+
     //Properties
     public int CurrentHP => currentHP;
     public int MaxHP => maxHP;
@@ -113,6 +115,8 @@ public class EnemyHealth : MonoBehaviour, IAttackable
         {
             grower.Grow(growthScaleMultiplier);
         }
+
+        RestoreAgentMovement();
     }
 
     private bool TryConsumeRespawn()
@@ -198,6 +202,11 @@ public class EnemyHealth : MonoBehaviour, IAttackable
 
     public void OnRespawnAnimationComplete()
     {
+        RestoreAgentMovement();
+    }
+
+    private void RestoreAgentMovement()
+    {
         if (!TryGetComponent(out NavMeshAgent agent))
         {
             return;
@@ -220,6 +229,11 @@ public class EnemyHealth : MonoBehaviour, IAttackable
         {
             CompleteRespawn();
             return;
+        }
+
+        if (keyPrefab != null)
+        {
+            Instantiate(keyPrefab, transform.position, Quaternion.identity);
         }
 
         if (useDestroyOnDie)
