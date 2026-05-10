@@ -1287,6 +1287,7 @@ GameObject:
   - component: {fileID: 7937445828417257728}
   - component: {fileID: 1075031549242723642}
   - component: {fileID: 6613162329804085728}
+  - component: {fileID: 6499780088692193660}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -1392,6 +1393,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95308d33b41c5b54da9a9748d5357d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragWindow
+--- !u!114 &6499780088692193660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4279463856653508927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8585536df9ccf6a4ebbec66f1782ffd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WindowFocus
 --- !u!1 &4816405514457873592
 GameObject:
   m_ObjectHideFlags: 0
