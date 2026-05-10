@@ -3,29 +3,55 @@ Created for TOJam 2026
 
 Developed by Something Studio
 
-Team Members
-Ido Isaac – Programmer / Game Design
-Zibing Xin – Programmer / Game Design / UI
-Xiaoyu Shi – Programmer / Level Design
-Angelica C. Rodriguez – Programmer / Audio
-Shane Duffney – Level Design
+Team Management
+Angelica C. Rodriguez
+
+Game Design
+Ido Isaac
+Zibing Xin
+
+Level and Map Design
+Ido Isaac - Leader of Designing
+Shane Duffney - Level 1
+Zibing Xin - Level 2
+Xiaoyu Shi - Level 3
+
+Programmer
+Ido Isaac
+Zibing Xin
+Xiaoyu Shi
+Angelica C. Rodriguez
+Shane Duffney
+
+UI
+Zibing Xin - Styled Desktop Design
+
+Audio
+Angelica C. Rodriguez - Audio System Design
+James Ronald - Audio Support Floater / Action of Alex
+
+Art
+Zibing Xin - 2D Assets
+Omar - 3D Graphics Support Floater
 
 Special Thanks
 TOJam organizers and volunteers
-Our floaters:
-Omar M. N. – 3D Graphics Support
-James Ronald – Audio Support
 
 Tools Used
 Unity
 Blender / Photoshop 
 Visual Studio / Rider
-GitHub
+GitHub / Google Drive
 
-Assets and Audio
-[Asset name] by [Creator] – [License / Source]
-[Music or SFX name] by [Creator] – [License / Source]
+Assets
+Sound Effects by James Ronald
+Sci Fi Doors by MASH Virtual - https://marketplace.unity.com/packages/3d/environments/sci-fi/sci-fi-doors-162876
+Zombie Cartoon by ArtStone3D - https://assetstore.unity.com/packages/3d/characters/humanoids/zombie-cartoon-low-poly-292251
+Elementary Dungeon Pack Lite by Gridness Studios - https://assetstore.unity.com/packages/3d/environments/dungeons/lite-dungeon-pack-low-poly-3d-art-by-gridness-242692
+Stylized Low Poly Skeleton by SazenGames - https://assetstore-fallback.unity.com/packages/3d/characters/humanoids/fantasy/stylized-low-poly-skeleton-306857
+POLYGON - Prototype Pack by Synty – https://assetstore.unity.com/packages/3d/environments/polygon-prototype-pack-art-by-synty-137126
 Comic Neue by Google Fonts – This Font Software is licensed under the SIL Open Font License, Version 1.1
+Windows XP System sound by Microsoft
 
 No bugs were harmed during development.
 Actually, many bugs were found.
