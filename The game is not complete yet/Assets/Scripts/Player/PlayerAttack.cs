@@ -26,22 +26,25 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
-        // Get a bullet from the pool
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX("PlayerShoot",0.2f);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager not found for shooting.");
+        }
+
         GameObject bulletObj = bulletPool.Spawn(bulletPoolKey, firePoint.position, firePoint.rotation);
         if (bulletObj != null)
         {
             Bullet bullet = bulletObj.GetComponent<Bullet>();
             if (bullet != null)
             {
-                // Initialize the bullet's direction based on the player's facing direction
                 bullet.Initialize(firePoint.forward, bulletPool);
             }
-
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlaySFX("PlayerShoot");
-            }
         }
-        attackInput = false; // Reset attack input after attacking
+
+        attackInput = false;
     }
 }

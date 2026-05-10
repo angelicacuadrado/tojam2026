@@ -37,7 +37,16 @@ public class EnemyHealth : MonoBehaviour, IAttackable
         animator?.SetTrigger("hit");
 
         if (currentHP == 0)
+        {
             HandleZeroHP();
+        }
+        else
+        {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.Play3DSFX("EnemyDamage", transform.position);
+            }
+        }
     }
 
     public void ResetHealth()
@@ -65,6 +74,11 @@ public class EnemyHealth : MonoBehaviour, IAttackable
 
     private void Die()
     {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.Play3DSFX("EnemyDie", transform.position);
+        }
+
         if (animator == null)
             return;
 

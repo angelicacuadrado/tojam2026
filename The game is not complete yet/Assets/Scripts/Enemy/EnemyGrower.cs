@@ -45,7 +45,15 @@ public class EnemyGrower : MonoBehaviour
             );
         }
 
-        transform.localScale = targetScale;
+        if (transform.localScale != targetScale)
+        {
+            transform.localScale = targetScale;
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.Play3DSFX("EnemyGrow", transform.position);
+            }
+        }
     }
 
     private void HandlePatrol()
