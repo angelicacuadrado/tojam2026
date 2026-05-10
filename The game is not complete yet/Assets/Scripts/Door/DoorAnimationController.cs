@@ -1,32 +1,24 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-public class Exit : MonoBehaviour
+public class DoorAnimationController : MonoBehaviour
 {
-    public static Exit Instance { get; private set; }
-
     [SerializeField] private bool isOpen = false;
 
     [Header("Visual State")]
     [FormerlySerializedAs("exitRenderer")]
     [SerializeField] private Renderer indicatorRenderer;
-    [SerializeField] private Collider exitCollider;
+    [SerializeField] private Collider doorCollider;
     [SerializeField] private Material closedMat;
     [SerializeField] private Material openMat;
 
     [Header("Door Animation")]
     [SerializeField] private Animator doorAnimator;
-    [SerializeField] private string openStateName = "Open";
+    [SerializeField] private string openStateName = "OpenDoor";
     [SerializeField] private int animationLayer = 0;
     [SerializeField] private float animationSpeed = 1f;
     [SerializeField, Range(0f, 1f)] private float closedNormalizedTime = 0f;
     [SerializeField, Range(0f, 1f)] private float openNormalizedTime = 1f;
-
-    [HideInInspector] public UnityEvent ExitLevel;
-
-    /// <summary>Fires whenever any Exit triggers ExitLevel. Cross-scene listeners (e.g. ChapterProgressManager) subscribe here.</summary>
-    public static event System.Action<Exit> AnyLevelCompleted;
 
     private float currentNormalizedTime;
     private float targetNormalizedTime;
@@ -34,33 +26,18 @@ public class Exit : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
+        if (doorCollider == null)
+            doorCollider = GetComponent<Collider>();
 
-        if (indicatorRenderer == null) {
-            Debug.LogWarning("Exit: Indicator Renderer is not assigned. Assign the indicator light renderer in the inspector.");
-        }
-        exitCollider = GetComponent<Collider>();
-        if (exitCollider == null) {
-            Debug.LogWarning("Exit: Collider component not found on the GameObject. Please assign it in the inspector.");
-        }
-        if (doorAnimator == null) { doorAnimator = GetComponentInChildren<Animator>(); }
+        if (doorAnimator == null)
+            doorAnimator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
     {
-        GameManager.Instance.OpenExit.AddListener(OpenDoor);
-
-        // Redundancy to ensure the exit starts in the correct state
-        SetOpenState(false);
-        currentNormalizedTime = closedNormalizedTime;
-        targetNormalizedTime = closedNormalizedTime;
+        currentNormalizedTime = isOpen ? openNormalizedTime : closedNormalizedTime;
+        targetNormalizedTime = currentNormalizedTime;
+        ApplyDoorState();
         SampleDoorAnimation();
     }
 
@@ -79,25 +56,25 @@ public class Exit : MonoBehaviour
 
     public void OpenDoor()
     {
-        SetOpenState(true);
+        isOpen = true;
+        ApplyDoorState();
         MoveDoorAnimationTo(openNormalizedTime);
     }
 
     public void CloseDoor()
     {
-        SetOpenState(false);
+        isOpen = false;
+        ApplyDoorState();
         MoveDoorAnimationTo(closedNormalizedTime);
     }
 
-    private void SetOpenState(bool open)
+    private void ApplyDoorState()
     {
-        isOpen = open;
-
         if (indicatorRenderer != null)
             indicatorRenderer.material = isOpen ? openMat : closedMat;
 
-        if (exitCollider != null)
-            exitCollider.isTrigger = isOpen;
+        if (doorCollider != null)
+            doorCollider.isTrigger = isOpen;
     }
 
     private void MoveDoorAnimationTo(float normalizedTime)
@@ -125,21 +102,5 @@ public class Exit : MonoBehaviour
         doorAnimator.speed = 0f;
         doorAnimator.Play(openStateName, animationLayer, Mathf.Clamp01(currentNormalizedTime));
         doorAnimator.Update(0f);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isOpen && other.CompareTag("Player"))
-        {
-            AudioManager.Instance?.PlaySFX("LevelWin");
-            LevelHost host = FindFirstObjectByType<LevelHost>();
-            if (host != null)
-            {
-                host._levelCompleted = true;
-                host.GetComponent<WindowControls>().Close();
-            }
-
-            AnyLevelCompleted?.Invoke(this);
-        }
     }
 }
