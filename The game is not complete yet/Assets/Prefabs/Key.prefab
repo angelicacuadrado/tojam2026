@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6457439165372330916}
   - component: {fileID: 6647827700212920899}
   - component: {fileID: 7344059098444931740}
+  - component: {fileID: -8939143369961631822}
   m_Layer: 0
   m_Name: Key
   m_TagString: Untagged
@@ -82,6 +83,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-8939143369961631822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972499470554476047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e5fead8f1b5a7478a44dce1257983c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Key_audio
 --- !u!1 &4538109188735583413
 GameObject:
   m_ObjectHideFlags: 0

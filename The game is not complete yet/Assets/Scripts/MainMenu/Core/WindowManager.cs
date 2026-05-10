@@ -105,6 +105,11 @@ public class WindowManager : MonoBehaviour
         window.window.SetAsLastSibling();
     }
 
+    public void KeepOnTop(GameObject window)
+    {
+        window.transform.SetAsLastSibling();
+    }
+
     public void RestoreOrFocus(WindowControls window)
     {
         if (window == null) return;

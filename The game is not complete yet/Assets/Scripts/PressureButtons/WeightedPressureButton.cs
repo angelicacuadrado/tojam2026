@@ -6,7 +6,7 @@ public class WeightedPressureButton : PressureButtonBase
 {
     [Header("Release Event")]
     [SerializeField] private UnityEvent onReleased;
-
+    private bool isPressed;
     private readonly HashSet<Collider> pressureSources = new();
 
     private void OnTriggerEnter(Collider other)
@@ -15,6 +15,11 @@ public class WeightedPressureButton : PressureButtonBase
             return;
 
         pressureSources.Add(other);
+        if (!isPressed)
+        {
+            NarratorController.Instance.PlayLine("Level3_2");
+            isPressed = true;
+        }
         SetPressed(true);
     }
 
