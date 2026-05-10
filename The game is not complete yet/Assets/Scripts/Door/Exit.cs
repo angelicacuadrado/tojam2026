@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -23,9 +24,14 @@ public class Exit : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float closedNormalizedTime = 0f;
     [SerializeField, Range(0f, 1f)] private float openNormalizedTime = 1f;
 
+    [Header("End Game Sequence")]
+    [SerializeField] private bool isFinalLevel = false;
+    [SerializeField] private GameObject victoryCanvas;
+    [SerializeField] private float closeDelay = 10f;
+    [SerializeField] private int finalLineIndex = 13;
+
     [HideInInspector] public UnityEvent ExitLevel;
 
-    /// <summary>Fires whenever any Exit triggers ExitLevel. Cross-scene listeners (e.g. ChapterProgressManager) subscribe here.</summary>
     public static event System.Action<Exit> AnyLevelCompleted;
 
     private float currentNormalizedTime;
@@ -43,11 +49,13 @@ public class Exit : MonoBehaviour
             Instance = this;
         }
 
-        if (indicatorRenderer == null) {
+        if (indicatorRenderer == null)
+        {
             Debug.LogWarning("Exit: Indicator Renderer is not assigned. Assign the indicator light renderer in the inspector.");
         }
         exitCollider = GetComponent<Collider>();
-        if (exitCollider == null) {
+        if (exitCollider == null)
+        {
             Debug.LogWarning("Exit: Collider component not found on the GameObject. Please assign it in the inspector.");
         }
         if (doorAnimator == null) { doorAnimator = GetComponentInChildren<Animator>(); }
@@ -57,7 +65,6 @@ public class Exit : MonoBehaviour
     {
         GameManager.Instance.OpenExit.AddListener(UnlockExit);
 
-        // Redundancy to ensure the exit starts in the correct state
         isOpen = false;
         ApplyVisualState();
         currentNormalizedTime = closedNormalizedTime;
@@ -125,15 +132,50 @@ public class Exit : MonoBehaviour
     {
         if (isOpen && other.CompareTag("Player"))
         {
-            AudioManager.Instance?.PlaySFX("LevelWin");
-            LevelHost host = FindFirstObjectByType<LevelHost>();
-            if (host != null)
-            {
-                host._levelCompleted = true;
-                host.GetComponent<WindowControls>().Close();
-            }
+            if (exitCollider != null) exitCollider.enabled = false;
 
+            AudioManager.Instance?.PlaySFX("LevelWin");
+            ExitLevel?.Invoke();
             AnyLevelCompleted?.Invoke(this);
+
+            if (isFinalLevel)
+            {
+                StartCoroutine(FinalLevelSequence());
+            }
+            else
+            {
+                CloseLevelHost();
+            }
+        }
+    }
+
+    private IEnumerator FinalLevelSequence()
+    {
+        if (victoryCanvas != null)
+        {
+            victoryCanvas.SetActive(true);
+        }
+
+        if (NarratorController.Instance != null)
+        {
+            NarratorController.Instance.PlayLine("EndGame");
+        }
+
+        Time.timeScale = 0f;
+
+        yield return new WaitForSecondsRealtime(closeDelay);
+
+        Time.timeScale = 1f;
+        CloseLevelHost();
+    }
+
+    private void CloseLevelHost()
+    {
+        LevelHost host = FindFirstObjectByType<LevelHost>();
+        if (host != null)
+        {
+            host._levelCompleted = true;
+            host.GetComponent<WindowControls>().Close();
         }
     }
 }
