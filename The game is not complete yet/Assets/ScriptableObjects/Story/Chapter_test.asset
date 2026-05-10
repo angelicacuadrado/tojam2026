@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa7cb241c5a04ae19106c612d4c0d404, type: 3}
+  m_Name: Chapter_test
+  m_EditorClassIdentifier: Assembly-CSharp::MessageChapter
+  startTimeLabel: 0
+  messages:
+  - body: level1
+    delayAfterPrevious: 0
+    buttonLabel: level1
+    windowPrefabToOpen: {fileID: 3365668955944777570, guid: 96c04c59dde77a44f88c913418e30b6e, type: 3}
+  - body: level2
+    delayAfterPrevious: 0
+    buttonLabel: level2
+    windowPrefabToOpen: {fileID: 3365668955944777570, guid: 0d9ce393efb7ed648bf055435550cc76, type: 3}
+  - body: level3
+    delayAfterPrevious: 0
+    buttonLabel: level3
+    windowPrefabToOpen: {fileID: 3365668955944777570, guid: 70ffaaedbc6ac5b4281e8472788bf99a, type: 3}

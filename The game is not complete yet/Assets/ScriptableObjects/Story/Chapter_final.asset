@@ -18,17 +18,9 @@ MonoBehaviour:
     delayAfterPrevious: 0
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
-  - body: Seriously, that helped a lot.
-    delayAfterPrevious: 2
-    buttonLabel: 
-    windowPrefabToOpen: {fileID: 0}
   - body: I fixed the coin collection, enemy scaling, zombie attacks, respawning,
       boss rewards, and the door problem.
     delayAfterPrevious: 3
-    buttonLabel: 
-    windowPrefabToOpen: {fileID: 0}
-  - body: Well, I wrote them down.
-    delayAfterPrevious: 1
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
   - body: Well, I wrote them down.
@@ -40,11 +32,6 @@ MonoBehaviour:
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
   - body: The game is getting much closer to being finished.
-    delayAfterPrevious: 2
-    buttonLabel: 
-    windowPrefabToOpen: {fileID: 0}
-  - body: It has coins, combat, enemies, health, physics, respawning, boss fights,
-      and an ending.
     delayAfterPrevious: 2
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
@@ -85,10 +72,6 @@ MonoBehaviour:
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
   - body: Thanks again.
-    delayAfterPrevious: 2
-    buttonLabel: 
-    windowPrefabToOpen: {fileID: 0}
-  - body: To be continued?
     delayAfterPrevious: 2
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}

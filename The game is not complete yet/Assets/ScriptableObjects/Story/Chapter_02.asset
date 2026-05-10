@@ -30,15 +30,7 @@ MonoBehaviour:
     delayAfterPrevious: 1
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
-  - body: You have a gun now.
-    delayAfterPrevious: 2
-    buttonLabel: 
-    windowPrefabToOpen: {fileID: 0}
-  - body: And there is one enemy.
-    delayAfterPrevious: 1
-    buttonLabel: 
-    windowPrefabToOpen: {fileID: 0}
-  - body: Just one zombie for now. I did not want to over-scope.
+  - body: Just some zombies for now. I did not want to over-scope.
     delayAfterPrevious: 2
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
@@ -51,7 +43,7 @@ MonoBehaviour:
     delayAfterPrevious: 2
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
-  - body: I mean, it has more features, so statistically something has to work.
+  - body: "Open it! I\u2019m calling you again..."
     delayAfterPrevious: 2
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}

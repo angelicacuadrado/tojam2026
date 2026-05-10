@@ -10,6 +10,11 @@ public abstract class PressureButtonBase : MonoBehaviour
     [Header("Events")]
     [SerializeField] private UnityEvent onPressed;
 
+    [Header("Visual State")]
+    [SerializeField] private Renderer indicatorRenderer;
+    [SerializeField] private Material releasedMat;
+    [SerializeField] private Material pressedMat;
+
     [Header("Optional Visual")]
     [SerializeField] private Transform buttonVisual;
     [SerializeField] private Vector3 pressedLocalOffset = new Vector3(0f, -0.1f, 0f);
@@ -29,6 +34,11 @@ public abstract class PressureButtonBase : MonoBehaviour
 
     protected virtual void Awake()
     {
+        if (indicatorRenderer == null && buttonVisual != null)
+            indicatorRenderer = buttonVisual.GetComponent<Renderer>();
+
+        ApplyVisualState();
+
         hasVisual = buttonVisual != null;
 
         if (!hasVisual)
@@ -63,6 +73,7 @@ public abstract class PressureButtonBase : MonoBehaviour
             return;
 
         IsPressed = pressed;
+        ApplyVisualState();
 
         if (IsPressed)
             OnPressed();
@@ -77,5 +88,15 @@ public abstract class PressureButtonBase : MonoBehaviour
 
     protected virtual void OnReleased()
     {
+    }
+
+    private void ApplyVisualState()
+    {
+        if (indicatorRenderer == null)
+            return;
+
+        Material targetMat = IsPressed ? pressedMat : releasedMat;
+        if (targetMat != null)
+            indicatorRenderer.material = targetMat;
     }
 }
