@@ -13,6 +13,7 @@ public class Key : MonoBehaviour, IPoolable
     protected string poolKey;
     [SerializeField, Tooltip("Object pooler that owns this key")]
     protected ObjectPooler poolOwner;
+    private static bool hasPlayedNarration = false;
 
     [Header("Animation Settings")]
     [SerializeField, Tooltip("Visual representation of the key")]
@@ -52,9 +53,15 @@ public class Key : MonoBehaviour, IPoolable
             {
                 isCollected = true;
                 GameManager.Instance.AddKey();
-
-                AudioManager.Instance?.Play3DSFX("KeyPickup", transform.position);
-                NarratorController.Instance?.PlayLine("Level1_3");
+                if (NarratorController.Instance != null && !hasPlayedNarration)
+                {
+                    NarratorController.Instance.PlayLine("Level1_3");
+                    hasPlayedNarration = true;
+                }
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.Play3DSFX("KeyPickup", transform.position);
+                }
                 poolOwner.ReturnToPool(gameObject, poolKey);
 
                 break;
