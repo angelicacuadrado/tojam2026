@@ -97,6 +97,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 8e4ab89c6c4c39445a1433d67e9dd832, type: 3}
     - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: eventLines.Array.data[0].delayBeforePlaying
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
       propertyPath: eventLines.Array.data[2].delayBeforePlaying
       value: 0.5
       objectReference: {fileID: 0}
