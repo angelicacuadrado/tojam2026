@@ -9,6 +9,7 @@ public class EnemyGrower : MonoBehaviour
     private int currentPatrolIndex = 0;
     private EnemyState state = EnemyState.Patrol;
     private NavMeshAgent agent;
+    private bool isGrown = false;
 
 
     [Header("Growth")]
@@ -53,9 +54,10 @@ public class EnemyGrower : MonoBehaviour
             {
                 AudioManager.Instance.Play3DSFX("EnemyGrow", transform.position);
             }
-            if (NarratorController.Instance != null)
+            if (NarratorController.Instance != null && !isGrown)
             {
                 NarratorController.Instance.PlayLine("Level2_2");
+                isGrown = true;
             }
         }
     }
