@@ -50,6 +50,7 @@ public class KeyMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (playerController.Rb.linearVelocity.magnitude < 0.1f) return;
         Vector3 move = (player.transform.right * moveInput.x + player.transform.forward * moveInput.y)
             * playerController.MoveSpeed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + move);
