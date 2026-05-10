@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class PlayerHealth : MonoBehaviour
     public int MaxHealth => maxHealth;
 
     public event System.Action<int, int> HealthChanged;
+    [HideInInspector] public static UnityEvent OnPlayerRespawn = new();
 
     private void Start()
     {
@@ -60,7 +62,7 @@ public class PlayerHealth : MonoBehaviour
                 AudioManager.Instance.PlaySFX("PlayerDie");
             }
 
-            Invoke(nameof(Respawn), 2.0f);
+            Invoke(nameof(Respawn), 1.0f);
         }
         else
         {
@@ -77,8 +79,9 @@ public class PlayerHealth : MonoBehaviour
     {
         SetCurrentHealth(maxHealth);
         transform.position = respawnPoint.position;
-        AudioManager.Instance.PlaySFX("PlayerRespawn");
+        //AudioManager.Instance.PlaySFX("PlayerRespawn");
         rb.linearVelocity = Vector3.zero; // Reset velocity on respawn
+        OnPlayerRespawn.Invoke();
     }
 
     private void SetCurrentHealth(int value)

@@ -12,10 +12,22 @@ public class KeyMovement : MonoBehaviour
     private Vector2 moveInput;
     private bool jumpQueued;
 
+    [SerializeField] private Transform respawnPos;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+    }
+
+    private void Start()
+    {
+        PlayerHealth.OnPlayerRespawn.AddListener(Respawn);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerHealth.OnPlayerRespawn.RemoveListener(Respawn);
     }
 
     // Called by PlayerInput
@@ -38,6 +50,7 @@ public class KeyMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (playerController.Rb.linearVelocity.magnitude < 0.1f) return;
         Vector3 move = (player.transform.right * moveInput.x + player.transform.forward * moveInput.y)
             * playerController.MoveSpeed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + move);
@@ -52,5 +65,12 @@ public class KeyMovement : MonoBehaviour
         }
 
         jumpQueued = false; // consume jump
+    }
+
+    private void Respawn()
+    {
+        // Reset position to player's position
+        transform.position = respawnPos.position;
+        rb.linearVelocity = Vector3.zero; // reset velocity
     }
 }
