@@ -2498,15 +2498,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 296006474568426686, guid: 82dce9c95ec2aae4cae279cce175c7f4, type: 3}
       propertyPath: respawnCount
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 296006474568426686, guid: 82dce9c95ec2aae4cae279cce175c7f4, type: 3}
       propertyPath: zeroHPBehavior
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 296006474568426686, guid: 82dce9c95ec2aae4cae279cce175c7f4, type: 3}
       propertyPath: useDestroyOnDie
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 296006474568426686, guid: 82dce9c95ec2aae4cae279cce175c7f4, type: 3}
       propertyPath: growthScaleMultiplier
