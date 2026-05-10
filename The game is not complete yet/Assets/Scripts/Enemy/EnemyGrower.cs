@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -5,6 +7,8 @@ public class EnemyGrower : MonoBehaviour
 {
     [Header("Patrol")]
     [SerializeField] private Transform[] patrolPoints;
+
+    [SerializeField] private float patrolDelay;
     private int currentPatrolIndex = 0;
     private NavMeshAgent agent;
     private bool isGrown = false;
@@ -78,6 +82,14 @@ public class EnemyGrower : MonoBehaviour
         if (!IsCurrentPatrolTrigger(other))
             return;
 
+        StartCoroutine(PatrolDelay());
+
+        
+    }
+
+    private IEnumerator PatrolDelay()
+    {
+        yield return new WaitForSeconds(patrolDelay);
         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
     }
 
