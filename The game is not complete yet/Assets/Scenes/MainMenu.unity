@@ -543,51 +543,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   sounds:
   - name: Error
-    clip: {fileID: 8300000, guid: e46f7cb69b76f6c4695f28830867dd0f, type: 3}
+    clip: {fileID: 8300000, guid: 6861300f2e18a52488dcf9842e1f54f2, type: 3}
   - name: Error_2
-    clip: {fileID: 8300000, guid: 4f4dcb6b8ccbef444b1e6672dbf1dc93, type: 3}
-  - name: Notification
-    clip: {fileID: 8300000, guid: be477fa8120842b4c94314d541ff036b, type: 3}
-  - name: Key
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 313c4fd9b77b49d40ae6758308dfdb03, type: 3}
   - name: Keyboard
-    clip: {fileID: 0}
-  - name: Click
     clip: {fileID: 0}
   - name: Shutdown
     clip: {fileID: 8300000, guid: 3f245452dd7e1df4280d50690ea214a3, type: 3}
   - name: NewMessage
-    clip: {fileID: 8300000, guid: be477fa8120842b4c94314d541ff036b, type: 3}
+    clip: {fileID: 8300000, guid: 06c756b112f52f348b1801f1ae550d0b, type: 3}
   - name: PlayerJump
     clip: {fileID: 8300000, guid: 0ee9e1371bf3c2143aba2b4c530ba881, type: 3}
   - name: PlayerDamage
-    clip: {fileID: 8300000, guid: 68164824299a4bb49bf9a59783dddff1, type: 3}
+    clip: {fileID: 8300000, guid: 8ed50f38770daec44b3799624073d9ad, type: 3}
   - name: PlayerShoot
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: beded736bd4d6424f9634743f03ec9a9, type: 3}
   - name: PlayerDie
-    clip: {fileID: 8300000, guid: fc76491f9be10954180e38022a8577ce, type: 3}
+    clip: {fileID: 8300000, guid: c50d221696ab3c84badee90c7c4e86d6, type: 3}
   - name: PlayerWalk
     clip: {fileID: 8300000, guid: 8eac98350de23574d8dfb81675f9860c, type: 3}
   - name: PlayerRespawn
     clip: {fileID: 8300000, guid: f210beab914bcdb4fbf7305b655b2eec, type: 3}
-  - name: EnemyLaugh
-    clip: {fileID: 0}
+  - name: EnemyLaugh1
+    clip: {fileID: 8300000, guid: cfc940878a535a14f8c46f0dc2bb9f51, type: 3}
+  - name: EnemyLaugh2
+    clip: {fileID: 8300000, guid: e4e0b314726e5fd43befd31867b47e09, type: 3}
   - name: EnemyGrow
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 391a0c865c8504b488103eff968ee23e, type: 3}
   - name: EnemyDamage
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6207eacae43bea94d8312e7f755f86d9, type: 3}
   - name: EnemyDie
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9f7e14391f5c56943bfa3490e8202e35, type: 3}
   - name: KeyGrow
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a756dd724705eec4ca317db4ba5de3a4, type: 3}
   - name: KeyPickup
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1e94a1dca339f9f48aa95290cc2b3484, type: 3}
   - name: LevelWin
     clip: {fileID: 8300000, guid: 29a60d1e24d6f5141a99f46fe17dc568, type: 3}
   - name: FailLevel
     clip: {fileID: 8300000, guid: 24797aa95a7a43a4c957b96f012820e0, type: 3}
   - name: Level1
-    clip: {fileID: 8300000, guid: 5e2e8a7582bcefe44b75b17eb7a90887, type: 3}
+    clip: {fileID: 8300000, guid: 6c8105fd5626cfc428c701465dc63186, type: 3}
+  - name: Level2
+    clip: {fileID: 8300000, guid: a192436641880f54da43a224176e22b3, type: 3}
+  - name: Level3
+    clip: {fileID: 8300000, guid: 7893c2bf3c14df34b8d4c6f4b4d426f4, type: 3}
+  - name: Message
+    clip: {fileID: 8300000, guid: be477fa8120842b4c94314d541ff036b, type: 3}
+  - name: Call
+    clip: {fileID: 8300000, guid: df7577c7a47e9f34b98419a2fad3d956, type: 3}
   randomClickSounds:
   - {fileID: 8300000, guid: 1ddba0fdaf894624db1ced30d58e1ad0, type: 3}
   - {fileID: 8300000, guid: 17034017776c47f45a20f420cc95297d, type: 3}

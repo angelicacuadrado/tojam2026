@@ -59,11 +59,12 @@ public class AudioManager : MonoBehaviour
         clickSource.PlayOneShot(randomClickSounds[randomIndex]);
     }
 
-
-    public void PlaySFX(string soundName)
+    public void PlaySFX(string soundName, float volumeScale = 1f)
     {
         if (soundDictionary.TryGetValue(soundName, out AudioClip clip))
-            sfxSource.PlayOneShot(clip);
+        {
+            sfxSource.PlayOneShot(clip, volumeScale);
+        }
     }
 
     public void PlayBGM(string soundName, bool loop = true)

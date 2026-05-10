@@ -24,6 +24,7 @@ public partial class EnemyAttacker : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         if (agent == null)
             Debug.LogWarning($"{nameof(EnemyAttacker)} on {name} is missing a NavMeshAgent component.", this);
+        AudioManager.Instance?.PlaySFX("EnemyLaugh1");
     }
 
     private void Update()
@@ -78,6 +79,7 @@ public partial class EnemyAttacker : MonoBehaviour
 
         Vector3 knockback = BuildKnockbackVector(player.position);
         playerHealth.TakeDamage(damagePerAttack, knockback);
+        AudioManager.Instance?.PlaySFX("EnemyLaugh2");
         nextAttackTime = Time.time + attackCooldown;
 
         if (animator != null)
