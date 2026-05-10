@@ -50,10 +50,25 @@ public class KeyMovement : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (playerController.Rb.linearVelocity.magnitude < 0.1f) return;
-        Vector3 move = (player.transform.right * moveInput.x + player.transform.forward * moveInput.y)
-            * playerController.MoveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + move);
+        // Get the player's REAL velocity
+        Vector3 playerVel = playerController.Rb.linearVelocity;
+
+        // If the player is not moving, the key should not move
+        if (playerVel.sqrMagnitude < 0.0001f)
+        {
+            // Keep vertical velocity (jumping) but stop horizontal drift
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+            return;
+        }
+
+        // Copy ONLY the horizontal movement of the player
+        Vector3 keyVel = new Vector3(
+            playerVel.x,
+            rb.linearVelocity.y,   // keep key's own vertical velocity
+            playerVel.z
+        );
+
+        rb.linearVelocity = keyVel;
     }
 
     private void HandleJump()
