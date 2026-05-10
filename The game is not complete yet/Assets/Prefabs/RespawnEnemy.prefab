@@ -118,6 +118,7 @@ MonoBehaviour:
   respawnCount: 10
   growthScaleMultiplier: 2
   useDestroyOnDie: 0
+  keyPrefab: {fileID: 0}
 --- !u!95 &3122270438927737923
 Animator:
   serializedVersion: 7
