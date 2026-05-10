@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2768404002205402059
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.45594
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.97596
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056150342806250623, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: eventLines.Array.data[0].id
+      value: Level2_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: eventLines.Array.data[1].id
+      value: Level2_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: eventLines.Array.data[2].id
+      value: Level2_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: eventLines.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8e4ab89c6c4c39445a1433d67e9dd832, type: 3}
+    - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: eventLines.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: f9bbc454ee0570848b2c344a065a00fd, type: 3}
+    - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: eventLines.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: fd9d6772c67b03d4695dbaa205b9efdb, type: 3}
+    - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: startSequence.Array.data[0].id
+      value: Level2_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449138681670300268, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: startSequence.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5ee2784386e18064eb2dc6aac79fea67, type: 3}
+    - target: {fileID: 4765441338478367048, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
+      propertyPath: m_Name
+      value: Narrator_2 Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 657387e65b8dfbb4ea0fc6f3c3517362, type: 3}
