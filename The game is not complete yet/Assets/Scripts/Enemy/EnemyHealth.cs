@@ -15,6 +15,7 @@ public class EnemyHealth : MonoBehaviour, IAttackable
 
     private Vector3 lastDeathPosition;
     private int respawnsRemaining;
+    private Animator animator => GetComponentInChildren<Animator>();
 
     //Properties
     public int CurrentHP => currentHP;
@@ -32,6 +33,8 @@ public class EnemyHealth : MonoBehaviour, IAttackable
             return;
 
         currentHP = Mathf.Max(0, currentHP - amount);
+
+        animator?.SetTrigger("hit");
 
         if (currentHP == 0)
             HandleZeroHP();
@@ -62,13 +65,11 @@ public class EnemyHealth : MonoBehaviour, IAttackable
 
     private void Die()
     {
-        if (useDestroyOnDie)
-        {
-            Destroy(gameObject);
+        if (animator == null)
             return;
-        }
 
-        gameObject.SetActive(false);
+        animator.applyRootMotion = true;
+        animator.SetTrigger("die");
     }
 
     private void Respawn()
@@ -82,6 +83,8 @@ public class EnemyHealth : MonoBehaviour, IAttackable
         lastDeathPosition = transform.position;
         ResetHealth();
         MoveToRespawnPosition();
+
+        animator?.SetTrigger("rebrith");
     }
 
     private void RespawnAndGrow()
@@ -122,5 +125,13 @@ public class EnemyHealth : MonoBehaviour, IAttackable
         }
 
         transform.position = lastDeathPosition;
+    }
+
+    public void OnDeathAnimationComplete()
+    {
+        if (useDestroyOnDie)
+            Destroy(gameObject);
+
+        gameObject.SetActive(false);
     }
 }

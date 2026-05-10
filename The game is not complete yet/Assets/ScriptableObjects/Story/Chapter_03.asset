@@ -13,4 +13,44 @@ MonoBehaviour:
   m_Name: Chapter_03
   m_EditorClassIdentifier: Assembly-CSharp::MessageChapter
   startTimeLabel: 5:20PM
-  messages: []
+  messages:
+  - body: I fixed it.
+    delayAfterPrevious: 0
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Mostly.
+    delayAfterPrevious: 0.5
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: The zombie should not grow anymore.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: The coins should not run away anymore.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Also I added enemy attacks and player health.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: You have 3 HP now.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: The goal is to kill 10 zombies and exit the level.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: This is basically a release candidate.
+    delayAfterPrevious: 2
+    buttonLabel: Game_v0.7_RC1.exe
+    windowPrefabToOpen: {fileID: 3365668955944777570, guid: 70ffaaedbc6ac5b4281e8472788bf99a, type: 3}
+  - body: Do not worry about the RC part.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: It means Really Complete.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}

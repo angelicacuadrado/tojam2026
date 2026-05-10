@@ -6,11 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
+    private float footstepInterval = 0.5f;
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float groundCheckDistance = 0.1f;
     private bool isGrounded;
+    private float footstepTimer;
 
     [Header("Look Settings")]
     [SerializeField] private float mouseSensitivity = 100f;
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lookInput;
     private bool jumpPressed;
+    private bool isWalking = false;
 
     private float xRotation = 0f;
 
@@ -40,6 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleLook();
         HandleGroundCheck();
+        HandleWalkAudio();
     }
 
     private void FixedUpdate()
@@ -80,6 +84,32 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(rb.position + move);
     }
 
+    private void HandleWalkAudio()
+    {
+        if (isGrounded && moveInput.magnitude > 0.1f)
+        {
+            if (!isWalking)
+            {
+                if (NarratorController.Instance != null)
+                {
+                    NarratorController.Instance.PlayLine("Level1_issue1");
+                }
+                isWalking = true;
+            }
+
+            footstepTimer += Time.deltaTime;
+            if (footstepTimer >= footstepInterval)
+            {
+                AudioManager.Instance.PlaySFX("PlayerWalk");
+                footstepTimer = 0f;
+            }
+        }
+        else
+        {
+            footstepTimer = 0f;
+        }
+    }
+
     // -----------------------------
     // JUMP
     // -----------------------------
@@ -94,6 +124,7 @@ public class PlayerController : MonoBehaviour
         if (jumpPressed && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            AudioManager.Instance.PlaySFX("PlayerJump");
         }
 
         jumpPressed = false; // consume jump input

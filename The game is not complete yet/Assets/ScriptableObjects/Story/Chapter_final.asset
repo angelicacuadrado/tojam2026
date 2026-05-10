@@ -13,4 +13,82 @@ MonoBehaviour:
   m_Name: Chapter_final
   m_EditorClassIdentifier: Assembly-CSharp::MessageChapter
   startTimeLabel: 9:53AM
-  messages: []
+  messages:
+  - body: Thank you so much for testing.
+    delayAfterPrevious: 0
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Seriously, that helped a lot.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: I fixed the coin collection, enemy scaling, zombie attacks, respawning,
+      boss rewards, and the door problem.
+    delayAfterPrevious: 3
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Well, I wrote them down.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Well, I wrote them down.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: That is the first step to fixing them.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: The game is getting much closer to being finished.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: It has coins, combat, enemies, health, physics, respawning, boss fights,
+      and an ending.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: The more systems it has, the more complete it feels.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: And also the more dangerous it becomes.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Anyway, I made one final build for you.
+    delayAfterPrevious: 2
+    buttonLabel: Game_v1.0_FINAL_reallyFinal.zip
+    windowPrefabToOpen: {fileID: 0}
+  - body: This one should be perfect.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Actually, wait.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Do not open it yet.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: I think I uploaded the wrong file.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: No, maybe it is fine.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Probably fine.
+    delayAfterPrevious: 1
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Thanks again.
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: To be continued?
+    delayAfterPrevious: 2
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}

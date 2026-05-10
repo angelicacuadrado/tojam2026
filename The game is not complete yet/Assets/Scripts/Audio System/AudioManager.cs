@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem; // Required for the new mouse click logic
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
+
     [System.Serializable]
     public struct SoundEntry
     {
@@ -12,14 +14,20 @@ public class AudioManager : MonoBehaviour
     }
 
     [Header("Audio Database")]
-    [Tooltip("SFX and Voice clips")]
     public List<SoundEntry> sounds = new List<SoundEntry>();
     private Dictionary<string, AudioClip> soundDictionary = new Dictionary<string, AudioClip>();
+
+    [Header("Mouse Clicks (Random)")]
+    [Tooltip("Drag your various mouse click sounds here.")]
+    public List<AudioClip> randomClickSounds = new List<AudioClip>();
 
     [Header("Audio Sources")]
     [SerializeField] private AudioSource bgmSource;
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource voiceSource;
+    [SerializeField, Tooltip("Dedicated source for mouse clicks")]
+    private AudioSource clickSource;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -32,53 +40,71 @@ public class AudioManager : MonoBehaviour
         foreach (var sound in sounds)
         {
             if (!soundDictionary.ContainsKey(sound.name) && sound.clip != null)
-            {
                 soundDictionary.Add(sound.name, sound.clip);
-            }
         }
     }
 
-    /// <summary>
-    /// Plays a sound effect by name. Sounds can overlap.
-    /// </summary>
+    private void Update()
+    {
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            PlayRandomClick();
+        }
+    }
+
+    private void PlayRandomClick()
+    {
+        if (randomClickSounds.Count == 0 || clickSource == null) return;
+        int randomIndex = Random.Range(0, randomClickSounds.Count);
+        clickSource.PlayOneShot(randomClickSounds[randomIndex]);
+    }
+
+
     public void PlaySFX(string soundName)
     {
         if (soundDictionary.TryGetValue(soundName, out AudioClip clip))
-        {
             sfxSource.PlayOneShot(clip);
-        }
-        else
-        {
-            Debug.LogWarning($"AudioManager: Sound '{soundName}' not found in the database!");
-        }
     }
 
-    /// <summary>
-    /// Plays a voice line by name. Stops the current voice so they don't overlap.
-    /// </summary>
-    public void PlayVoice(string soundName)
+    public void PlayBGM(string soundName, bool loop = true)
     {
         if (soundDictionary.TryGetValue(soundName, out AudioClip clip))
         {
-            voiceSource.Stop();
-            voiceSource.clip = clip;
-            voiceSource.Play();
-        }
-        else
-        {
-            Debug.LogWarning($"AudioManager: Voice '{soundName}' not found in the database!");
+            bgmSource.Stop();
+            bgmSource.clip = clip;
+            bgmSource.loop = loop;
+            bgmSource.Play();
         }
     }
 
-    /// <summary>
-    /// Changes the background music.
-    /// </summary>
-    public void PlayMusic(AudioClip clip)
+    public void PlayVoice(AudioClip clip)
     {
-        if (bgmSource.clip == clip) return;
+        if (clip == null || voiceSource == null) return;
 
-        bgmSource.Stop();
-        bgmSource.clip = clip;
-        bgmSource.Play();
+        voiceSource.Stop();
+        voiceSource.clip = clip;
+        voiceSource.Play();
+    }
+
+    public void Play3DSFX(string soundName, Vector3 position)
+    {
+        if (soundDictionary.TryGetValue(soundName, out AudioClip clip))
+        {
+            AudioSource.PlayClipAtPoint(clip, position);
+        }
+        else
+        {
+            Debug.LogWarning($"AudioManager: Sound '{soundName}' not found!");
+        }
+    }
+
+    public void PauseBGM()
+    {
+         bgmSource.Pause();
+    }
+
+    public void UnPauseBGM()
+    {
+        bgmSource.UnPause();
     }
 }

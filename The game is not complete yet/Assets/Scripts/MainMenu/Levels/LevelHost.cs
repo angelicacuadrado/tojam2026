@@ -106,6 +106,11 @@ public class LevelHost : MonoBehaviour
         _sceneLoading = false;
         EnterPlaying();
 
+        //Start level audio
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayBGM("Level1");
+        }
         // Kick off the call window's incoming → connected sequence.
         var callWindow = MessageScheduler.Instance != null ? MessageScheduler.Instance.CallWindow : null;
         if (callWindow != null) callWindow.StartIncoming();
@@ -127,14 +132,17 @@ public class LevelHost : MonoBehaviour
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        AudioManager.Instance?.PauseBGM(); // Stop level music when paused. Resumed in EnterPlaying.
         if (pausePanel != null) pausePanel.SetActive(true);
     }
+
 
     public void Resume()
     {
         if (!_paused) return;
         _paused = false;
         Time.timeScale = 1f;
+        AudioManager.Instance?.UnPauseBGM(); // Resume level music when unpaused.
         EnterPlaying();
     }
 

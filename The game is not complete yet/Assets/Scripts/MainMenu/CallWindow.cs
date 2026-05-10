@@ -10,6 +10,8 @@ public class CallWindow : MonoBehaviour
     [SerializeField] private string incomingText = "Incoming...";
     [SerializeField] private Color incomingColor = Color.black;
     [SerializeField] private float incomingDuration = 1f;
+    [Tooltip("AudioManager SFX key played when 'Incoming...' appears.")]
+    [SerializeField] private string incomingSfxName = "callstart";
 
     [Header("Connected")]
     [SerializeField] private string connectedText = "Connected";
@@ -21,6 +23,8 @@ public class CallWindow : MonoBehaviour
     [SerializeField] private string endedText = "Ended Call";
     [SerializeField] private Color endedColor = Color.red;
     [SerializeField] private float endedDuration = 1f;
+    [Tooltip("AudioManager SFX key played when 'Ended Call' appears (call hang-up).")]
+    [SerializeField] private string endedSfxName = "callend";
 
     private Coroutine _routine;
 
