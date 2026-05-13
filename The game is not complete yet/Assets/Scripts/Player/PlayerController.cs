@@ -165,8 +165,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandleLook()
     {
-        float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime;
+        float sensitivity = mouseSensitivity * (SettingsManager.MouseSensitivity / SettingsManager.DefaultMouseSensitivity);
+        float mouseX = lookInput.x * sensitivity * Time.deltaTime;
+        float mouseY = lookInput.y * sensitivity * Time.deltaTime;
 
         // Rotate player horizontally
         transform.Rotate(Vector3.up * mouseX);

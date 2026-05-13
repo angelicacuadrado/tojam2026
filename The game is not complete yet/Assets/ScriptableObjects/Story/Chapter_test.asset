@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MessageChapter
   startTimeLabel: 0
   messages:
-  - body: level1
+  - body: 
     delayAfterPrevious: 0
     buttonLabel: level1
     windowPrefabToOpen: {fileID: 3365668955944777570, guid: 96c04c59dde77a44f88c913418e30b6e, type: 3}
-  - body: level2
+  - body: 
     delayAfterPrevious: 0
     buttonLabel: level2
     windowPrefabToOpen: {fileID: 3365668955944777570, guid: 0d9ce393efb7ed648bf055435550cc76, type: 3}
-  - body: level3
+  - body: 
     delayAfterPrevious: 0
     buttonLabel: level3
     windowPrefabToOpen: {fileID: 3365668955944777570, guid: 70ffaaedbc6ac5b4281e8472788bf99a, type: 3}
+  - body: 
+    delayAfterPrevious: 0
+    buttonLabel: final
+    windowPrefabToOpen: {fileID: 3365668955944777570, guid: 277dac14da01fbd4e9922e5ac685391e, type: 3}

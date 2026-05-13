@@ -1254,7 +1254,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 222
+  m_text: TOJam
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
   m_sharedMaterial: {fileID: 2373050105203585977, guid: 83c35b0c32d9534409c6390478a0bf2d, type: 2}
@@ -1895,18 +1895,34 @@ MonoBehaviour:
   person1MessageContainer: {fileID: 5611301957771642846}
   person1ScrollRect: {fileID: 8221188796094480613}
   person1Messages:
-  - body: test message
+  - body: Take care youself!
     delayAfterPrevious: 0
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
-  - body: test message 111
+  - body: And good luck
+    delayAfterPrevious: 0
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: Love you
     delayAfterPrevious: 0
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
   person2MessageContainer: {fileID: 830162548833729448}
   person2ScrollRect: {fileID: 9035004493491753770}
   person2Messages:
-  - body: also test message
+  - body: 'TOJam 2026: Twenty Years, One Weekend'
+    delayAfterPrevious: 0
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: 'This year''s theme is: Mash-up Any 2 Previous Themes! '
+    delayAfterPrevious: 0
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: "We\u2019re super excited to have you participate in TOJam 2026"
+    delayAfterPrevious: 0
+    buttonLabel: 
+    windowPrefabToOpen: {fileID: 0}
+  - body: If you have any further questions, feel free to connect with me :)
     delayAfterPrevious: 0
     buttonLabel: 
     windowPrefabToOpen: {fileID: 0}
@@ -1993,7 +2009,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 111
+  m_text: Mom
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
   m_sharedMaterial: {fileID: 5307714136259391787, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
@@ -2888,10 +2904,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 111
+  m_text: Mom
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
-  m_sharedMaterial: {fileID: 2373050105203585977, guid: 83c35b0c32d9534409c6390478a0bf2d, type: 2}
+  m_sharedMaterial: {fileID: 5307714136259391787, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3621,7 +3637,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 222
+  m_text: TOJam
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
   m_sharedMaterial: {fileID: 5307714136259391787, guid: 6cbb19b9ce5f3f64e9d52e319c273505, type: 2}
